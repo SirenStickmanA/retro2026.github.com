@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ROBLOX.com - My Page</title>
+    <style>
+        body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
+        .top-header { background-color: #000; color: #FFF; padding: 4px 10px; display: flex; justify-content: space-between; font-size: 11px; }
+        .main-banner { background-color: #000080; padding: 10px; border-bottom: 3px solid #E1E1E1; }
+        .nav-bar { background-color: #ECECEC; border-top: 1px solid #FFF; border-bottom: 1px solid #A0A0A0; padding: 6px 15px; display: flex; gap: 20px; font-weight: bold; font-size: 13px; }
+        .nav-bar a { color: #002E62; text-decoration: none; }
+        .main-layout { display: flex; padding: 15px; gap: 15px; background-color: #FFF; margin: 10px; border: 1px solid #A0A0A0; min-height: 400px; }
+        .profile-box { border: 1px solid #A0A0A0; padding: 15px; background: #F6F6F6; width: 100%; }
+        h2 { color: #002E62; margin-top: 0; }
+    </style>
+</head>
+<body>
+    <div class="top-header"><span></span><span><a href="index.html" style="color:#FFF;text-decoration:none;">Home</a></span></div>
+    <div class="main-banner"><img src="logo.png" height="40" alt="Roblox"></div>
+    <div class="nav-bar"><a href="index.html">Home</a><a href="mypage.html">My Page</a><a href="maintenance.html">Games</a><a href="install.html">Install</a></div>
+    <div class="main-layout">
+        <div class="profile-box" id="profile-content">
+            <h2>My Profile</h2>
+            <p>You are not logged in. Please <a href="login.html">Login</a> to see your profile data.</p>
+        </div>
+    </div>
+    <script>
+        const estáLogado = localStorage.getItem('is_logged_in') === 'true';
+        const dadosUsuario = localStorage.getItem('roblox_user');
+        if (estáLogado && dadosUsuario) {
+            const conta = JSON.parse(dadosUsuario);
+            document.getElementById('profile-content').innerHTML = `
+                <h2>Profile: ${conta.username}</h2>
+                <p><b>Account ID:</b> #${conta.id}</p>
+                <p><b>Registered Email:</b> ${conta.email}</p>
+                <p><b>Join Date:</b> 2006 (Simulated)</p>
+            `;
+        }
+    </script>
+</body>
+</html>
