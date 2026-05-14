@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>ROBLOX.com - Online Building Toy</title>
-    <!-- Linkando seus arquivos CSS oficiais -->
-    <link rel="stylesheet" href="css/Roblox.css">
-    <link rel="stylesheet" href="css/Frontpage.css">
     
     <style>
         body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
@@ -18,13 +15,13 @@
         .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .game-card { background: white; border: 1px solid #999; padding: 10px; text-align: center; }
         .game-card img { width: 100%; border: 1px solid #ccc; margin-bottom: 5px; }
-        .play-btn { background: url('images/PlayButton_Green.png') no-repeat; background-size: contain; width: 100px; height: 30px; border: none; cursor: pointer; color: transparent; }
+        .play-btn { background: url('PlayButton_Green.png') no-repeat; background-size: contain; width: 100px; height: 30px; border: none; cursor: pointer; color: transparent; }
     </style>
 </head>
 <body>
 
     <div class="top-header">
-        <img src="images/logo.png" height="35" alt="Roblox">
+        <img src="logo.png" height="35" alt="Roblox">
         <span><a href="Login/index.html" style="color: white; text-decoration: none;">Login</a> | Register | Help</span>
     </div>
 
@@ -42,21 +39,20 @@
             <a href="#">Character</a><br>
             <a href="#">Forum</a><br>
             <hr>
-            <p>Users Online: 42</p>
+            <!-- O ID "online-counter" permite a atualização via Script -->
+            <p>Users Online: <span id="online-counter" style="font-weight: bold;">42</span></p>
         </div>
 
         <div class="content">
             <h2 style="margin-top:0;">Featured Games</h2>
             <div class="game-grid">
-                <!-- Mapa 1: Chaos Canyon -->
                 <div class="game-card">
-                    <img src="images/ChaosCanyonLarge.png" alt="Chaos Canyon">
+                    <img src="ChaosCanyonSmall2.png" alt="Chaos Canyon">
                     <b>Chaos Canyon</b><br>
                     <button class="play-btn" onclick="playOof()">Play</button>
                 </div>
-                <!-- Mapa 2: Building Room -->
                 <div class="game-card">
-                    <img src="images/BuildingRoomLarge.png" alt="Building Room">
+                    <img src="screen1.png" alt="Building Room">
                     <b>Building Room</b><br>
                     <button class="play-btn" onclick="playOof()">Play</button>
                 </div>
@@ -64,14 +60,43 @@
         </div>
     </div>
 
-    <!-- Scripts do seu projeto -->
-    <script src="js/wombat.js"></script>
+    <script src="wombat.js"></script>
     <script>
         function playOof() {
             var audio = new Audio('Oof.mp3');
             audio.play();
             alert('Conectando ao Client de 2006... Aguarde.');
         }
+
+        // Função do contador dinâmico em tempo real
+        function updateOnlineCounter() {
+            const date = new Date();
+            const hour = date.getHours();
+            let baseUsers;
+
+            // Define tráfego dinâmico dependendo da hora do dia
+            if (hour >= 0 && hour < 6) {
+                baseUsers = 35; // Madrugada menos acessos
+            } else if (hour >= 18 && hour < 23) {
+                baseUsers = 110; // Pico a noite
+            } else {
+                baseUsers = 65; // Dia comercial
+            }
+
+            // Gera uma variação aleatória de +/- 12 usuários
+            const fluctuation = Math.floor(Math.random() * 25) - 12;
+            const finalCount = baseUsers + fluctuation;
+
+            // Aplica o valor na tela
+            document.getElementById('online-counter').innerText = finalCount;
+        }
+
+        // Roda ao carregar a página
+        updateOnlineCounter();
+
+        // Altera o número organicamente a cada 7 segundos sem recarregar
+        setInterval(updateOnlineCounter, 7000);
     </script>
 </body>
-</html>
+    </html>
+    
