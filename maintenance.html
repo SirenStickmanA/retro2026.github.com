@@ -1,10 +1,42 @@
-<?php ob_start();
-  $enabled = false;
- 
-  define('HTML_PATH', '../');
-  define('HTML_PAGE', HTML_PATH.'maintenance.html');
-    
-  if($enabled) {
-    header("Location: ".HTML_PAGE);
-  }
-?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ROBLOX.com - Games</title>
+    <style>
+        body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
+        .top-header { background-color: #000; color: #FFF; padding: 4px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+        .main-banner { background-color: #000080; padding: 10px; border-bottom: 3px solid #E1E1E1; }
+        .nav-bar { background-color: #ECECEC; border-top: 1px solid #FFF; border-bottom: 1px solid #A0A0A0; padding: 6px 15px; display: flex; gap: 20px; font-weight: bold; font-size: 13px; }
+        .nav-bar a { color: #002E62; text-decoration: none; }
+        .main-layout { display: flex; padding: 15px; gap: 15px; background-color: #FFF; margin: 10px; border: 1px solid #A0A0A0; min-height: 500px; }
+        .content { flex: 1; }
+        .content h2 { font-size: 18px; color: #002E62; margin-top: 0; border-bottom: 1px solid #A0A0A0; padding-bottom: 5px; }
+        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .game-card { background: white; border: 1px solid #A0A0A0; padding: 8px; text-align: center; font-size: 12px; }
+        .game-card b { color: #002E62; display: block; margin-bottom: 5px; }
+        .game-card img { width: 100%; max-width: 180px; height: auto; border: 1px solid #A0A0A0; }
+    </style>
+</head>
+<body>
+    <div class="top-header"><span></span><span><a href="index.html" style="color:#FFF;text-decoration:none;">Back to Home</a></span></div>
+    <div class="main-banner"><img src="logo.png" height="40" alt="Roblox"></div>
+    <div class="nav-bar"><a href="index.html">Home</a><a href="mypage.html">My Page</a><a href="maintenance.html">Games</a><a href="install.html">Install</a></div>
+    <div class="main-layout">
+        <div class="content">
+            <h2>All ROBLOX Games</h2>
+            <div class="game-grid">
+                <div class="game-card">
+                    <img src="SantasWinterStrongholdSmall1.png" alt="Santa's Winter Stronghold">
+                    <b>Santa's Winter Stronghold</b>
+                </div>
+                <div class="game-card">
+                    <img src="screen2.png" alt="Classic Baseplate">
+                    <b>Classic Baseplate</b>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
