@@ -7,7 +7,7 @@
     <style>
         body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
         
-        /* Faixa preta superior original de 2006 */
+        /* Faixa superior preta original de 2006 */
         .top-header { background-color: #000000; color: #FFF; padding: 4px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
         .top-header a { color: #FFF; text-decoration: none; }
         .top-header a:hover { text-decoration: underline; }
@@ -60,22 +60,23 @@
         <img src="logo.png" height="40" alt="Roblox">
     </div>
 
-    <!-- Barra de Navegação -->
+    <!-- Barra de Navegação Conectada -->
     <div class="nav-bar">
         <a href="index.html">Home</a>
-        <a href="MP/index.html">My Page</a>
+        <a href="mypage.html">My Page</a>
         <a href="maintenance.html">Games</a>
-        <a href="Install/index.html">Install</a>
+        <a href="install.html">Install</a>
     </div>
 
     <!-- Container Principal do Layout -->
     <div class="main-layout">
-        <!-- A Sidebar é renderizada dinamicamente pelo JavaScript no final da página -->
+        <!-- A Sidebar atualiza de acordo com o status de login via JavaScript -->
         <div class="sidebar" id="main-sidebar">
             <b>My ROBLOX</b>
             <a href="login.html">Login</a>
             <a href="login.html">Register</a>
-            <a href="#">Forum</a>
+            <a href="character.html">Character</a>
+            <a href="forum.html">Forum</a>
             <hr>
             <p style="margin:0;">Users Online: <span id="online-counter" style="font-weight: bold;">--</span></p>
         </div>
@@ -121,14 +122,14 @@
             }
             console.log("Seu ID de Visitante nesta sessão: " + visitorId);
 
-            // 2. Verifica se existe uma conta conectada na caixinha de dados
-            const estáLogado = localStorage.getItem('is_logged_in') === 'true';
+            // 2. Verifica se existe uma conta conectada na caixinha de dados (localStorage)
+            const estaLogado = localStorage.getItem('is_logged_in') === 'true';
             const dadosUsuario = localStorage.getItem('roblox_user');
             
             const areaSidebar = document.getElementById('main-sidebar');
             const linksHeader = document.getElementById('header-auth-links');
             
-            if (estáLogado && dadosUsuario) {
+            if (estaLogado && dadosUsuario) {
                 const conta = JSON.parse(dadosUsuario);
                 
                 // Atualiza a barra preta superior com o nome do usuário logado
@@ -140,14 +141,14 @@
                     <p style="margin:5px 0; color:#002E62; font-weight:bold;">Hello, ${conta.username}!</p>
                     <span style="font-size:10px; color:#666; display:block; margin-bottom:5px;">Account ID: #${conta.id}</span>
                     <hr>
-                    <a href="#">Character</a>
-                    <a href="#">Forum</a>
+                    <a href="character.html">Character</a>
+                    <a href="forum.html">Forum</a>
                     <a href="#" onclick="efetuarLogout()">Logout</a>
                     <hr>
                     <p style="margin:0;">Users Online: <span id="online-counter" style="font-weight: bold;">--</span></p>
                 `;
             } else {
-                // Configuração padrão para usuários não autenticados
+                // Configuração padrão para visitantes comuns
                 linksHeader.innerHTML = `<a href="login.html">Login</a> | <a href="login.html">Register</a> | <a href="#">Help</a>`;
             }
 
@@ -176,7 +177,7 @@
 
             // Executa o contador imediatamente e define o intervalo de atualização
             gerenciarContadorOnline();
-            setInterval(gerenciarContadorOnline, 6000);
+            setInterval(gerenciarContadorOnline, 7000); // Sincronizado em 7 segundos
         }
 
         function efetuarLogout() {
@@ -184,9 +185,8 @@
             window.location.reload();
         }
 
-        // Inicializa todas as rotas dinâmicas estruturais ao terminar de carregar
+        // Inicializa todas as rotas ao terminar de carregar
         window.onload = inicializarSite;
     </script>
 </body>
-                        </html>
-    
+</html>
