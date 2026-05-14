@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ROBLOX.com - Login & Register</title>
+    <style>
+        body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 20px; }
+        .box { background: white; border: 1px solid #A0A0A0; padding: 20px; max-width: 350px; margin: 0 auto; }
+        h2 { color: #000080; font-size: 18px; margin-top: 0; border-bottom: 1px solid #A0A0A0; padding-bottom: 5px; }
+        input { width: 93%; padding: 6px; margin: 8px 0; border: 1px solid #A0A0A0; font-family: Verdana; }
+        button { background: #ECECEC; border: 1px solid #A0A0A0; padding: 6px 12px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        button:hover { background: #DDD; }
+        .toggle-link { font-size: 11px; margin-top: 15px; text-align: center; color: #002E62; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <!-- Caixa de Login -->
+    <div class="box" id="login-box">
+        <h2>Log In to ROBLOX</h2>
+        <input type="text" id="login-user" placeholder="Username">
+        <input type="password" id="login-pass" placeholder="Password">
+        <button onclick="efetuarLogin()">Log In</button>
+        <div class="toggle-link" onclick="alternarAbas()">Don't have an account? Register here</div>
+    </div>
+
+    <!-- Caixa de Registro -->
+    <div class="box" id="register-box" style="display: none;">
+        <h2>Register to ROBLOX</h2>
+        <input type="text" id="reg-user" placeholder="Username">
+        <input type="email" id="reg-email" placeholder="Email">
+        <input type="password" id="reg-pass" placeholder="Password">
+        <button onclick="efetuarRegistro()">Register</button>
+        <div class="toggle-link" onclick="alternarAbas()">Already have an account? Log In here</div>
+    </div>
+
+    <script>
+        function alternarAbas() {
+            const login = document.getElementById('login-box');
+            const reg = document.getElementById('register-box');
+            if(login.style.display === 'none') {
+                login.style.display = 'block';
+                reg.style.display = 'none';
+            } else {
+                login.style.display = 'none';
+                reg.style.display = 'block';
+            }
+        }
+
+        function efetuarRegistro() {
+            const user = document.getElementById('reg-user').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const pass = document.getElementById('reg-pass').value.trim();
+
+            if(!user || !email || !pass) return alert('Fill in all fields!');
+
+            // Gera o ID aleatório de 1 a 6000 solicitado
+            const randomId = Math.floor(Math.random() * 6000) + 1;
+
+            const userData = { username: user, email: email, password: pass, id: randomId };
+            
+            // Guarda as informações na caixinha (localStorage)
+            localStorage.setItem('roblox_user', JSON.stringify(userData));
+            alert('Registered successfully! Your ID is: ' + randomId);
+            alternarAbas();
+        }
+
+        function efetuarLogin() {
+            const user = document.getElementById('login-user').value.trim();
+            const pass = document.getElementById('login-pass').value.trim();
+
+            const savedData = localStorage.getItem('roblox_user');
+            if(!savedData) return alert('No account found! Please register first.');
+
+            const account = JSON.parse(savedData);
+
+            if(user === account.username && pass === account.password) {
+                // Define que o usuário está logado
+                localStorage.setItem('is_logged_in', 'true');
+                alert('Welcome back, ' + account.username + ' (ID: ' + account.id + ')!');
+                window.location.href = 'index.html';
+            } else {
+                alert('Invalid Username or Password!');
+            }
+        }
+    </script>
+</body>
+  </html>
+  
