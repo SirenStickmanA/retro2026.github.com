@@ -6,25 +6,61 @@
     
     <style>
         body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
-        .top-header { background-color: #000080; color: white; padding: 5px 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ff0000; }
-        .nav-bar { background-color: #EEE; border-bottom: 1px solid #999; padding: 5px 10px; display: flex; gap: 15px; font-weight: bold; font-size: 13px; }
-        .nav-bar a { color: black; text-decoration: none; }
-        .main-layout { display: flex; padding: 15px; gap: 15px; }
-        .sidebar { width: 160px; background: #f0f0f0; border: 1px solid #999; padding: 10px; font-size: 12px; }
+        
+        /* Faixa preta superior original de 2006 */
+        .top-header { background-color: #000000; color: #FFF; padding: 4px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+        .top-header a { color: #FFF; text-decoration: none; }
+        .top-header a:hover { text-decoration: underline; }
+        
+        /* Banner azul escuro onde fica o logotipo */
+        .main-banner { background-color: #000080; padding: 10px; display: flex; align-items: center; border-bottom: 3px solid #E1E1E1; }
+        
+        /* Barra de navegação cinza clássica */
+        .nav-bar { background-color: #ECECEC; border-top: 1px solid #FFF; border-bottom: 1px solid #A0A0A0; padding: 6px 15px; display: flex; gap: 20px; font-weight: bold; font-size: 13px; }
+        .nav-bar a { color: #002E62; text-decoration: none; }
+        .nav-bar a:hover { text-decoration: underline; }
+        
+        /* Layout estrutural e áreas de conteúdo */
+        .main-layout { display: flex; padding: 15px; gap: 15px; background-color: #FFF; margin: 10px; border: 1px solid #A0A0A0; min-height: 500px; }
+        .sidebar { width: 160px; background: #EFEFEF; border: 1px solid #A0A0A0; padding: 8px; font-size: 12px; }
+        .sidebar b { color: #222; font-size: 13px; display: block; margin-bottom: 5px; }
+        .sidebar a { color: #002E62; text-decoration: none; display: block; margin: 4px 0; }
+        .sidebar a:hover { text-decoration: underline; }
+        .sidebar hr { border: 0; border-top: 1px dashed #A0A0A0; margin: 10px 0; }
+        
         .content { flex: 1; }
-        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .game-card { background: white; border: 1px solid #999; padding: 10px; text-align: center; }
-        .game-card img { width: 100%; border: 1px solid #ccc; margin-bottom: 5px; }
-        .play-btn { background: url('PlayButton_Green.png') no-repeat; background-size: contain; width: 100px; height: 30px; border: none; cursor: pointer; color: transparent; }
+        .content h2 { font-size: 18px; color: #002E62; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid #A0A0A0; padding-bottom: 5px; }
+        
+        /* Grid de jogos e botões */
+        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .game-card { background: white; border: 1px solid #A0A0A0; padding: 8px; text-align: center; font-size: 12px; }
+        .game-card b { color: #002E62; display: block; margin-bottom: 5px; }
+        .game-card img { width: 100%; max-width: 180px; height: auto; border: 1px solid #A0A0A0; margin-bottom: 5px; display: inline-block; }
+        
+        .play-btn { display: block; margin: 5px auto 0 auto; background: url('PlayButton_Green.png') no-repeat center; background-size: contain; width: 64px; height: 64px; border: none; cursor: pointer; color: transparent; overflow: hidden; }
+        
+        /* Rodapé institucional retro */
+        .footer { text-align: center; font-size: 10px; color: #555; padding: 20px 0; border-top: 1px solid #A0A0A0; margin: 10px; }
+        .footer a { color: #002E62; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
+    <!-- Top Header Superior Dinâmico -->
     <div class="top-header">
-        <img src="logo.png" height="35" alt="Roblox">
-        <span><a href="Login/index.html" style="color: white; text-decoration: none;">Login</a> | Register | Help</span>
+        <span></span>
+        <span id="header-auth-links">
+            <a href="login.html">Login</a> | <a href="login.html">Register</a> | <a href="#">Help</a>
+        </span>
     </div>
 
+    <!-- Banner do Logotipo -->
+    <div class="main-banner">
+        <img src="logo.png" height="40" alt="Roblox">
+    </div>
+
+    <!-- Barra de Navegação -->
     <div class="nav-bar">
         <a href="index.html">Home</a>
         <a href="MP/index.html">My Page</a>
@@ -32,71 +68,125 @@
         <a href="Install/index.html">Install</a>
     </div>
 
+    <!-- Container Principal do Layout -->
     <div class="main-layout">
-        <div class="sidebar">
-            <b>My ROBLOX</b><br><br>
-            <a href="Login/index.html">Login</a><br>
-            <a href="#">Character</a><br>
-            <a href="#">Forum</a><br>
+        <!-- A Sidebar é renderizada dinamicamente pelo JavaScript no final da página -->
+        <div class="sidebar" id="main-sidebar">
+            <b>My ROBLOX</b>
+            <a href="login.html">Login</a>
+            <a href="login.html">Register</a>
+            <a href="#">Forum</a>
             <hr>
-            <!-- O ID "online-counter" permite a atualização via Script -->
-            <p>Users Online: <span id="online-counter" style="font-weight: bold;">42</span></p>
+            <p style="margin:0;">Users Online: <span id="online-counter" style="font-weight: bold;">--</span></p>
         </div>
 
         <div class="content">
-            <h2 style="margin-top:0;">Featured Games</h2>
+            <h2>Featured Games</h2>
             <div class="game-grid">
                 <div class="game-card">
                     <img src="ChaosCanyonSmall2.png" alt="Chaos Canyon">
-                    <b>Chaos Canyon</b><br>
+                    <b>Chaos Canyon</b>
                     <button class="play-btn" onclick="playOof()">Play</button>
                 </div>
                 <div class="game-card">
                     <img src="screen1.png" alt="Building Room">
-                    <b>Building Room</b><br>
+                    <b>Building Room</b>
                     <button class="play-btn" onclick="playOof()">Play</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Rodapé Clássico -->
+    <div class="footer">
+        ROBLOX, "Online Building Toy", characters, logos and trading dress are trademarks of ROBLOX Corporation.<br>
+        <a href="#">Privacy Policy</a> | <a href="#">Contact Us</a> | <a href="#">About Us</a> | <a href="#">Jobs</a>
+    </div>
+
     <script src="wombat.js"></script>
     <script>
         function playOof() {
             var audio = new Audio('Oof.mp3');
-            audio.play();
+            audio.play().catch(function(e) { console.log("Áudio bloqueado até interação."); });
             alert('Conectando ao Client de 2006... Aguarde.');
         }
 
-        // Função do contador dinâmico em tempo real
-        function updateOnlineCounter() {
-            const date = new Date();
-            const hour = date.getHours();
-            let baseUsers;
+        // Sistema de Controle de Sessão e Contadores Realistas
+        function inicializarSite() {
+            // 1. Gera ou recupera o ID de Visitante único do site (1 a 10.000)
+            let visitorId = localStorage.getItem('visitor_id');
+            if (!visitorId) {
+                visitorId = Math.floor(Math.random() * 10000) + 1;
+                localStorage.setItem('visitor_id', visitorId);
+            }
+            console.log("Seu ID de Visitante nesta sessão: " + visitorId);
 
-            // Define tráfego dinâmico dependendo da hora do dia
-            if (hour >= 0 && hour < 6) {
-                baseUsers = 35; // Madrugada menos acessos
-            } else if (hour >= 18 && hour < 23) {
-                baseUsers = 110; // Pico a noite
+            // 2. Verifica se existe uma conta conectada na caixinha de dados
+            const estáLogado = localStorage.getItem('is_logged_in') === 'true';
+            const dadosUsuario = localStorage.getItem('roblox_user');
+            
+            const areaSidebar = document.getElementById('main-sidebar');
+            const linksHeader = document.getElementById('header-auth-links');
+            
+            if (estáLogado && dadosUsuario) {
+                const conta = JSON.parse(dadosUsuario);
+                
+                // Atualiza a barra preta superior com o nome do usuário logado
+                linksHeader.innerHTML = `Logged in as: <b>${conta.username}</b> | <a href="#" onclick="efetuarLogout()">Logout</a> | <a href="#">Help</a>`;
+                
+                // Atualiza a barra lateral exibindo o ID único de conta (1 a 6.000)
+                areaSidebar.innerHTML = `
+                    <b>My ROBLOX</b>
+                    <p style="margin:5px 0; color:#002E62; font-weight:bold;">Hello, ${conta.username}!</p>
+                    <span style="font-size:10px; color:#666; display:block; margin-bottom:5px;">Account ID: #${conta.id}</span>
+                    <hr>
+                    <a href="#">Character</a>
+                    <a href="#">Forum</a>
+                    <a href="#" onclick="efetuarLogout()">Logout</a>
+                    <hr>
+                    <p style="margin:0;">Users Online: <span id="online-counter" style="font-weight: bold;">--</span></p>
+                `;
             } else {
-                baseUsers = 65; // Dia comercial
+                // Configuração padrão para usuários não autenticados
+                linksHeader.innerHTML = `<a href="login.html">Login</a> | <a href="login.html">Register</a> | <a href="#">Help</a>`;
             }
 
-            // Gera uma variação aleatória de +/- 12 usuários
-            const fluctuation = Math.floor(Math.random() * 25) - 12;
-            const finalCount = baseUsers + fluctuation;
+            // 3. Função interna do contador dinâmico de tráfego de usuários
+            function gerenciarContadorOnline() {
+                const horaAtual = new Date().getHours();
+                let baseDeUsuarios;
 
-            // Aplica o valor na tela
-            document.getElementById('online-counter').innerText = finalCount;
+                if (horaAtual >= 0 && horaAtual < 6) {
+                    baseDeUsuarios = 45; // Baixo tráfego de madrugada
+                } else if (horaAtual >= 18 && horaAtual < 23) {
+                    baseDeUsuarios = 135; // Horário de pico noturno
+                } else {
+                    baseDeUsuarios = 80; // Fluxo padrão diurno
+                }
+
+                // Aplica flutuação orgânica na contagem de acessos simultâneos
+                const variacao = Math.floor(Math.random() * 21) - 10; 
+                const totalOnline = baseDeUsuarios + variacao;
+
+                const elementoContador = document.getElementById('online-counter');
+                if (elementoContador) {
+                    elementoContador.innerText = totalOnline;
+                }
+            }
+
+            // Executa o contador imediatamente e define o intervalo de atualização
+            gerenciarContadorOnline();
+            setInterval(gerenciarContadorOnline, 6000);
         }
 
-        // Roda ao carregar a página
-        updateOnlineCounter();
+        function efetuarLogout() {
+            localStorage.removeItem('is_logged_in');
+            window.location.reload();
+        }
 
-        // Altera o número organicamente a cada 7 segundos sem recarregar
-        setInterval(updateOnlineCounter, 7000);
+        // Inicializa todas as rotas dinâmicas estruturais ao terminar de carregar
+        window.onload = inicializarSite;
     </script>
 </body>
-    </html>
+                        </html>
     
