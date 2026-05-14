@@ -1,2 +1,79 @@
-# roblox2006.github.com
-OG
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>ROBLOX.com - Online Building Toy</title>
+    <!-- Linkando seus arquivos CSS oficiais -->
+    <link rel="stylesheet" href="css/Roblox.css">
+    <link rel="stylesheet" href="css/Frontpage.css">
+    
+    <style>
+        body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
+        .top-header { background-color: #000080; color: white; padding: 5px 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ff0000; }
+        .nav-bar { background-color: #EEE; border-bottom: 1px solid #999; padding: 5px 10px; display: flex; gap: 15px; font-weight: bold; font-size: 13px; }
+        .nav-bar a { color: black; text-decoration: none; }
+        .main-layout { display: flex; padding: 15px; gap: 15px; }
+        .sidebar { width: 160px; background: #f0f0f0; border: 1px solid #999; padding: 10px; font-size: 12px; }
+        .content { flex: 1; }
+        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .game-card { background: white; border: 1px solid #999; padding: 10px; text-align: center; }
+        .game-card img { width: 100%; border: 1px solid #ccc; margin-bottom: 5px; }
+        .play-btn { background: url('images/PlayButton_Green.png') no-repeat; background-size: contain; width: 100px; height: 30px; border: none; cursor: pointer; color: transparent; }
+    </style>
+</head>
+<body>
+
+    <div class="top-header">
+        <img src="images/logo.png" height="35" alt="Roblox">
+        <span>Login | Register | Help</span>
+    </div>
+
+    <div class="nav-bar">
+        <a href="index.html">Home</a>
+        <a href="MP/Default.aspx">My Page</a>
+        <a href="maintenance.html">Games</a>
+        <a href="Install/Default.aspx">Install</a>
+    </div>
+
+    <div class="main-layout">
+        <div class="sidebar">
+            <b>My ROBLOX</b><br><br>
+            <a href="Login/Default.aspx">Login</a><br>
+            <a href="#">Character</a><br>
+            <a href="#">Forum</a><br>
+            <hr>
+            <p>Users Online: 42</p>
+        </div>
+
+        <div class="content">
+            <h2 style="margin-top:0;">Featured Games</h2>
+            <div class="game-grid">
+                <!-- Mapa 1: Chaos Canyon -->
+                <div class="game-card">
+                    <img src="images/ChaosCanyonLarge.png">
+                    <b>Chaos Canyon</b><br>
+                    <button class="play-btn" onclick="playOof()">Play</button>
+                </div>
+                <!-- Mapa 2: Building Room -->
+                <div class="game-card">
+                    <img src="images/BuildingRoomLarge.png">
+                    <b>Building Room</b><br>
+                    <button class="play-btn" onclick="playOof()">Play</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts do seu projeto -->
+    <script src="js/wombat.js"></script>
+    <script>
+        function playOof() {
+            var audio = new Audio('Oof.mp3');
+            audio.play();
+            alert('Conectando ao Client de 2006... Aguarde.');
+        }
+    </script>
+</body>
+</html>
+
+
