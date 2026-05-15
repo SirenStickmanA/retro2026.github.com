@@ -64,7 +64,7 @@
             <p style="margin: 5px 0;"><strong>STATUS:</strong> Scanning connection...</p>
             <div id="cablox-scan-details">Detectando hardware...</div>
             
-            <div class="cablox-captcha-box" id="captcha-display">A8K2</div>
+            <div class="cablox-captcha-box" id="captcha-display">----</div>
             <input type="text" id="captcha-input" class="cablox-input" placeholder="Type CAPTCHA here">
             
             <button class="cablox-btn" onclick="verificarCablox()">VERIFY INTERACTION</button>
@@ -95,6 +95,7 @@
 
     <!-- Container Principal do Layout -->
     <div class="main-layout">
+        <!-- A Sidebar se atualiza de acordo com o status de login via JavaScript -->
         <div class="sidebar" id="main-sidebar">
             <b>My ROBLOX</b>
             <a href="login.html">Login</a>
@@ -111,12 +112,14 @@
                 <div class="game-card">
                     <img src="ChaosCanyonSmall2.png" alt="Chaos Canyon">
                     <b>Chaos Canyon</b>
-                    <button class="play-btn" onclick="playOof()">Play</button>
+                    <!-- Envia dinamicamente o nome correto do mapa via parâmetro -->
+                    <button class="play-btn" onclick="playOof('Chaos Canyon')">Play</button>
                 </div>
                 <div class="game-card">
                     <img src="screen1.png" alt="Building Room">
                     <b>Building Room</b>
-                    <button class="play-btn" onclick="playOof()">Play</button>
+                    <!-- Envia dinamicamente o nome correto do mapa via parâmetro -->
+                    <button class="play-btn" onclick="playOof('Building Room')">Play</button>
                 </div>
             </div>
         </div>
@@ -132,17 +135,19 @@
     <script>
         let captchaGerado = "";
 
-        function playOof() {
+        // Sistema de disparo do áudio e redirecionamento de jogo com parâmetros dinâmicos
+        function playOof(nomeDoJogo) {
             var audio = new Audio('Oof.mp3');
-            audio.play().catch(function(e) { console.log("Áudio bloqueado."); });
+            audio.play().catch(function(e) { console.log("Áudio necessita de interação."); });
             alert('Conectando ao Client de 2006... Aguarde.');
+            window.location.href = "play.html?game=" + encodeURIComponent(nomeDoJogo);
         }
 
         // --- SISTEMA INTELIGENTE CABLOX AI SECURITY ---
         function rodarCaBlox() {
             const screen = document.getElementById('cablox-screen');
             
-            // Só pede CAPTCHA se a sessão atual ainda não tiver sido aprovada pela IA
+            // Caso já esteja verificado na sessão, pula a checagem
             if (sessionStorage.getItem('cablox_verified') === 'true') {
                 screen.style.display = "none";
                 inicializarSite();
@@ -166,7 +171,6 @@
             else if (ua.includes("Safari") && !ua.includes("Chrome")) navegador = "Safari";
 
             // 3. Sistema de Análise de Suspeita (IA CaBlox)
-            // Se o usuário carregar a página rápido demais ou usar navegadores mobile emulando telas velhas, gera suspeita
             let suspeito = "Não";
             if (dispositivo === "Celular" || navegador === "Opera") {
                 suspeito = "Sim (Comportamento Incomum)";
@@ -182,7 +186,7 @@
             };
             localStorage.setItem('Lock_cablox_scan', JSON.stringify(logSeguranca));
 
-            // Exibe os dados na telinha da IA
+            // Exibe os dados coletados pela IA na telinha
             document.getElementById('cablox-scan-details').innerHTML = `
                 Device: ${dispositivo}<br>
                 Browser: ${navegador}<br>
@@ -197,7 +201,7 @@
             }
             document.getElementById('captcha-display').innerText = captchaGerado;
 
-            // Logs da IA rolando na tela estilo Hacker
+            // Logs da IA estilo terminal hacker
             const logBox = document.getElementById('cablox-log-box');
             logBox.innerHTML = `[INFO] CaBlox Core Iniciado...<br>[SCAN] Analisando Headers da sessão...<br>[LOCK] Dados salvos na pasta Lock do sistema.<br>[AWAIT] Aguardando resolução do CAPTCHA...`;
         }
@@ -209,12 +213,10 @@
             if (input === captchaGerado) {
                 logBox.innerHTML += `<br><span style="color:#00FF00">[SUCCESS] CAPTCHA Correto. Acesso Liberado.</span>`;
                 
-                // Atualiza o arquivo de log dentro do Lock marcando como aprovado
                 let logAtual = JSON.parse(localStorage.getItem('Lock_cablox_scan'));
                 logAtual.captcha_status = "Approved";
                 localStorage.setItem('Lock_cablox_scan', JSON.stringify(logAtual));
 
-                // Salva a validação na sessão para não ficar repetindo a cada F5
                 sessionStorage.setItem('cablox_verified', 'true');
 
                 setTimeout(() => {
@@ -233,8 +235,9 @@
             }
         }
 
-        // --- SISTEMA PADRÃO ROBLOX 2006 ---
+        // --- SISTEMA ESTRUTURAL ROBLOX 2006 ---
         function inicializarSite() {
+            // Gera ou mantém um ID de visitante único para quem entrou (1 a 10.000)
             let visitorId = localStorage.getItem('visitor_id');
             if (!visitorId) {
                 visitorId = Math.floor(Math.random() * 10000) + 1;
@@ -249,6 +252,8 @@
             
             if (estaLogado && dadosUsuario) {
                 const conta = JSON.parse(dadosUsuario);
+                
+                // Exibe nome e ID de conta (1 a 6.000) caso esteja autenticado
                 linksHeader.innerHTML = `Logged in as: <b>${conta.username}</b> | <a href="#" onclick="efetuarLogout()">Logout</a> | <a href="#">Help</a>`;
                 
                 areaSidebar.innerHTML = `
@@ -266,6 +271,7 @@
                 linksHeader.innerHTML = `<a href="login.html">Login</a> | <a href="login.html">Register</a> | <a href="#">Help</a>`;
             }
 
+            // Contador de tráfego dinâmico orgânico baseado na hora
             function gerenciarContadorOnline() {
                 const horaAtual = new Date().getHours();
                 let baseDeUsuarios = (horaAtual >= 0 && horaAtual < 6) ? 45 : (horaAtual >= 18 && horaAtual < 23) ? 135 : 80;
@@ -278,12 +284,12 @@
             setInterval(gerenciarContadorOnline, 7000);
         }
 
-        function efeteuarLogout() {
+        function efetuarLogout() {
             localStorage.removeItem('is_logged_in');
             window.location.reload();
         }
 
-        // Primeiro dispara a segurança do CaBlox
+        // Dispara o fluxo de segurança do CaBlox ao iniciar a página
         window.onload = rodarCaBlox;
     </script>
 </body>
