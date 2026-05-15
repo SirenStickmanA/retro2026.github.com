@@ -1,0 +1,20 @@
+// --- CABLOX AI DETECTOR ENGINE V1.08 ---
+const ua = navigator.userAgent;
+let navegador = "Internet Explorer"; // Padrão se não achar nenhum abaixo
+
+if (ua.includes("Firefox") && !ua.includes("Seamonkey")) {
+    navegador = "Firefox";
+} else if (ua.includes("MiBrowser")) {
+    navegador = "Mi Browser";
+} else if (ua.includes("Opr/") || ua.includes("OPR") || ua.includes("Opera")) {
+    navegador = "Opera";
+} else if (ua.includes("Edg/")) {
+    navegador = "Edge";
+} else if (ua.includes("Chrome") && !ua.includes("Chromium")) {
+    navegador = "Chrome";
+} else if (ua.includes("Safari") && !ua.includes("Chrome") && !ua.includes("Edg")) {
+    navegador = "Safari";
+} else if (ua.includes("MSIE") || ua.includes("Trident/")) {
+    navegador = "Internet Explorer";
+}
+
