@@ -4,86 +4,130 @@
     <meta charset="UTF-8">
     <title>ROBLOX.com - Login & Register</title>
     <style>
-        body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 20px; }
-        .box { background: white; border: 1px solid #A0A0A0; padding: 20px; max-width: 350px; margin: 0 auto; }
-        h2 { color: #000080; font-size: 18px; margin-top: 0; border-bottom: 1px solid #A0A0A0; padding-bottom: 5px; }
-        input { width: 93%; padding: 6px; margin: 8px 0; border: 1px solid #A0A0A0; font-family: Verdana; }
-        button { background: #ECECEC; border: 1px solid #A0A0A0; padding: 6px 12px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
+        .top-header { background-color: #000000; color: #FFF; padding: 4px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+        .top-header a { color: #FFF; text-decoration: none; }
+        .main-banner { background-color: #000080; padding: 10px; display: flex; align-items: center; border-bottom: 3px solid #E1E1E1; }
+        .container { max-width: 400px; margin: 40px auto; padding: 0 10px; }
+        .box { background: white; border: 1px solid #A0A0A0; padding: 20px; box-shadow: 2px 2px 0px #999; }
+        h2 { color: #000080; font-size: 18px; margin-top: 0; border-bottom: 1px solid #A0A0A0; padding-bottom: 5px; font-weight: bold; }
+        label { font-size: 12px; font-weight: bold; display: block; margin-top: 10px; color: #333; }
+        input { width: 94%; padding: 6px; margin: 4px 0 12px 0; border: 1px solid #A0A0A0; font-family: Verdana; font-size: 13px; background-color: #FAFAFA; }
+        button { background: #ECECEC; border: 1px solid #A0A0A0; padding: 6px 15px; font-weight: bold; cursor: pointer; font-family: Verdana; font-size: 12px; }
         button:hover { background: #DDD; }
         .toggle-link { font-size: 11px; margin-top: 15px; text-align: center; color: #002E62; cursor: pointer; text-decoration: underline; }
+        .cablox-scan-box { background: #000; color: #00FF00; font-family: Courier New, monospace; font-size: 11px; padding: 10px; margin-bottom: 15px; border: 1px solid #FF0000; }
+        .cablox-captcha-area { background: #FFF; border: 1px dashed #000; padding: 8px; text-align: center; font-size: 18px; font-weight: bold; letter-spacing: 4px; color: #FF0000; font-style: italic; margin: 8px 0; user-select: none; background-image: linear-gradient(45deg, #eee 25%, transparent 25%), linear-gradient(-45deg, #eee 25%, transparent 25%); background-size: 8px 8px; }
     </style>
 </head>
 <body>
 
-    <!-- Caixa de Login -->
-    <div class="box" id="login-box">
-        <h2>Log In to ROBLOX</h2>
-        <input type="text" id="login-user" placeholder="Username">
-        <input type="password" id="login-pass" placeholder="Password">
-        <button onclick="efetuarLogin()">Log In</button>
-        <div class="toggle-link" onclick="alternarAbas()">Don't have an account? Register here</div>
-    </div>
+    <div class="top-header"><span></span><span><a href="index.html">Back to Home</a> | Help</span></div>
+    <div class="main-banner"><img src="logo.png" height="40" alt="Roblox"></div>
 
-    <!-- Caixa de Registro -->
-    <div class="box" id="register-box" style="display: none;">
-        <h2>Register to ROBLOX</h2>
-        <input type="text" id="reg-user" placeholder="Username">
-        <input type="email" id="reg-email" placeholder="Email">
-        <input type="password" id="reg-pass" placeholder="Password">
-        <button onclick="efetuarRegistro()">Register</button>
-        <div class="toggle-link" onclick="alternarAbas()">Already have an account? Log In here</div>
+    <div class="container">
+        <div class="box" id="login-box">
+            <h2>Log In to ROBLOX</h2>
+            <div class="cablox-scan-box">
+                🛡️ CaBlox AI Scan V1.08:<br><span id="login-scan-info">Analyzing core hooks...</span>
+            </div>
+            <label for="login-user">Username:</label><input type="text" id="login-user">
+            <label for="login-pass">Password:</label><input type="password" id="login-pass">
+            <label>Security CAPTCHA:</label>
+            <div class="cablox-captcha-area" id="login-captcha-display">----</div>
+            <input type="text" id="login-captcha-input" placeholder="Type CAPTCHA here" style="text-transform: uppercase;">
+            <button onclick="efetuarLogin()">Log In</button>
+            <div class="toggle-link" onclick="alternarAbas()">Don't have an account? Register here</div>
+        </div>
+
+        <div class="box" id="register-box" style="display: none;">
+            <h2>Register to ROBLOX</h2>
+            <label for="reg-user">Username:</label><input type="text" id="reg-user">
+            <label for="reg-email">Email:</label><input type="email" id="reg-email">
+            <label for="reg-pass">Password:</label><input type="password" id="reg-pass">
+            <button onclick="efetuarRegistro()">Create Account</button>
+            <div class="toggle-link" onclick="alternarAbas()">Already have an account? Log In here</div>
+        </div>
     </div>
 
     <script>
+        let captchaLoginGerado = "";
+
         function alternarAbas() {
             const login = document.getElementById('login-box');
             const reg = document.getElementById('register-box');
             if(login.style.display === 'none') {
-                login.style.display = 'block';
-                reg.style.display = 'none';
+                login.style.display = 'block'; reg.style.display = 'none'; rodarCaBloxLogin();
             } else {
-                login.style.display = 'none';
-                reg.style.display = 'block';
+                login.style.display = 'none'; reg.style.display = 'block';
             }
         }
 
-        function efetuarRegistro() {
+        // --- DETECTORES DE NAVEGADORES V1.08 CORRIGIDOS ---
+        function rodarCaBloxLogin() {
+            const ua = navigator.userAgent;
+            let dispositivo = "PC";
+            if (/Mobi|Android|iPhone/i.test(ua)) dispositivo = "Celular";
+            else if (/Tablet|iPad/i.test(ua)) dispositivo = "Tablet";
+
+            let navegador = "Internet Explorer";
+            if (ua.includes("Firefox") && !ua.includes("Seamonkey")) navegador = "Firefox";
+            else if (ua.includes("MiBrowser")) navegador = "Mi Browser";
+            else if (ua.includes("Opr/") || ua.includes("OPR") || ua.includes("Opera")) navegador = "Opera";
+            else if (ua.includes("Edg/")) navegador = "Edge";
+            else if (ua.includes("Chrome") && !ua.includes("Chromium")) navegador = "Chrome";
+            else if (ua.includes("Safari") && !ua.includes("Chrome") && !ua.includes("Edg")) navegador = "Safari";
+
+            document.getElementById('login-scan-info').innerHTML = `Device: ${dispositivo}<br>Browser: ${navegador}<br>Lock: Secured`;
+
+            const caracteres = "ABCDEFGHJKLMNOPQRSTUVWXYZ23456789";
+            captchaLoginGerado = "";
+            for (let i = 0; i < 4; i++) {
+                captchaLoginGerado += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+            }
+            document.getElementById('login-captcha-display').innerText = captchaLoginGerado;
+        }
+
+        function efeteuarRegistro() {
             const user = document.getElementById('reg-user').value.trim();
             const email = document.getElementById('reg-email').value.trim();
             const pass = document.getElementById('reg-pass').value.trim();
-
-            if(!user || !email || !pass) return alert('Fill in all fields!');
-
-            // Gera o ID aleatório de 1 a 6000 solicitado
+            if(!user || !email || !pass) return alert('Fill in fields!');
             const randomId = Math.floor(Math.random() * 6000) + 1;
-
-            const userData = { username: user, email: email, password: pass, id: randomId };
-            
-            // Guarda as informações na caixinha (localStorage)
-            localStorage.setItem('roblox_user', JSON.stringify(userData));
-            alert('Registered successfully! Your ID is: ' + randomId);
+            localStorage.setItem('roblox_user', JSON.stringify({ username: user, email: email, password: pass, id: randomId }));
+            alert('Account #' + randomId + ' created!');
             alternarAbas();
         }
 
         function efetuarLogin() {
             const user = document.getElementById('login-user').value.trim();
             const pass = document.getElementById('login-pass').value.trim();
+            const captchaInput = document.getElementById('login-captcha-input').value.trim().toUpperCase();
 
-            const savedData = localStorage.getItem('roblox_user');
-            if(!savedData) return alert('No account found! Please register first.');
+            if (captchaInput !== captchaLoginGerado) {
+                alert('CaBlox Error: Invalid CAPTCHA.');
+                localStorage.setItem('Lock_auth_breach', JSON.stringify({ timestamp: new Date().toLocaleString(), event: "Bad Captcha", user: user }));
+                rodarCaBloxLogin();
+                return;
+            }
 
-            const account = JSON.parse(savedData);
+            const dadosSalvos = localStorage.getItem('roblox_user');
+            if(!dadosSalvos) return alert('No account found.');
+            const conta = JSON.parse(dadosSalvos);
 
-            if(user === account.username && pass === account.password) {
-                // Define que o usuário está logado
+            if(user === conta.username && pass === conta.password) {
                 localStorage.setItem('is_logged_in', 'true');
-                alert('Welcome back, ' + account.username + ' (ID: ' + account.id + ')!');
+                sessionStorage.removeItem('cablox_verified'); 
+                localStorage.setItem('Lock_last_login', JSON.stringify({ timestamp: new Date().toLocaleString(), event: "Success Login", id: conta.id }));
                 window.location.href = 'index.html';
             } else {
-                alert('Invalid Username or Password!');
+                alert('Incorrect credentials.');
+                rodarCaBloxLogin();
             }
         }
+
+        window.onload = rodarCaBloxLogin;
     </script>
 </body>
-  </html>
-  
+                                                       </html>
+        
