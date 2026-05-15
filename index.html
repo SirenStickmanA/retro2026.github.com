@@ -30,30 +30,41 @@
         .footer a { color: #002E62; text-decoration: none; }
         .footer a:hover { text-decoration: underline; }
 
-        /* --- ESTILOS DA IA CABLOX SECURITY V1.08 --- */
-        .cablox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 9999; align-items: center; justify-content: center; }
-        .cablox-modal { background: #E1E1E1; border: 3px double #FF0000; width: 380px; padding: 15px; font-family: Courier New, monospace; font-size: 12px; box-shadow: 5px 5px 0px #000; }
-        .cablox-header { background: #000080; color: white; padding: 4px; font-weight: bold; font-size: 13px; text-align: center; margin-bottom: 10px; }
-        .cablox-captcha-box { background: #FFF; border: 1px dashed #000; padding: 10px; text-align: center; font-size: 20px; font-weight: bold; letter-spacing: 5px; color: #FF0000; user-select: none; font-style: italic; background-image: linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%); background-size: 10px 10px; margin: 10px 0; }
-        .cablox-input { width: 90%; padding: 4px; border: 1px solid #A0A0A0; font-family: Courier New; font-weight: bold; margin-bottom: 10px; text-align: center; }
-        .cablox-btn { background: #ECECEC; border: 1px solid #A0A0A0; padding: 5px 15px; font-weight: bold; cursor: pointer; display: block; width: 100%; font-family: Courier New; }
-        .cablox-btn:hover { background: #CCC; }
-        .cablox-logs { background: #000; color: #00FF00; padding: 8px; font-size: 10px; height: 75px; overflow-y: auto; margin-top: 10px; text-align: left; }
+        /* --- INTERFACE INTEGRADA CABLOX + BUILDERFOUND V1.08 --- */
+        .cablox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 9999; align-items: center; justify-content: center; }
+        .cablox-modal { background: #E1E1E1; border: 3px double #FF0000; width: 420px; padding: 15px; font-family: Courier New, monospace; font-size: 11px; box-shadow: 5px 5px 0px #000; }
+        .cablox-header { background: #000080; color: white; padding: 4px; font-weight: bold; font-size: 12px; text-align: center; margin-bottom: 10px; }
+        .ia-box { background: #F0F0F0; border: 1px solid #A0A0A0; padding: 8px; margin-bottom: 8px; }
+        .ia-title { font-weight: bold; color: #000080; border-bottom: 1px dashed #A0A0A0; margin-bottom: 4px; }
+        .cablox-captcha-box { background: #FFF; border: 1px dashed #000; padding: 8px; text-align: center; font-size: 20px; font-weight: bold; letter-spacing: 5px; color: #FF0000; user-select: none; font-style: italic; background-image: linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%); background-size: 10px 10px; margin: 8px 0; }
+        .cablox-input { width: 92%; padding: 4px; border: 1px solid #A0A0A0; font-family: Courier New; font-weight: bold; margin-bottom: 8px; text-align: center; }
+        .cablox-btn { background: #ECECEC; border: 1px solid #A0A0A0; padding: 6px 15px; font-weight: bold; cursor: pointer; display: block; width: 100%; font-family: Courier New; }
+        .cablox-logs { background: #000; color: #00FF00; padding: 6px; font-size: 10px; height: 70px; overflow-y: auto; margin-top: 8px; text-align: left; }
     </style>
 </head>
 <body>
 
-    <!-- Janela CaBlox AI V1.08 -->
+    <!-- Pop-up Unificado das Duas IAs de Segurança -->
     <div id="cablox-screen" class="cablox-overlay">
         <div class="cablox-modal">
-            <div class="cablox-header">🛡️ CaBlox AI Security v1.08</div>
-            <p style="margin: 5px 0;"><strong>STATUS:</strong> Engine Active...</p>
-            <div id="cablox-scan-details">Scanning framework...</div>
+            <div class="cablox-header">🛡️ ROBLOX DOUBLE VERIFICATION MATRIX</div>
+            
+            <!-- Painel 1: CaBlox AI -->
+            <div class="ia-box">
+                <div class="ia-title">🤖 [1] CaBlox AI Core v1.08</div>
+                <div id="cablox-scan-details">Scanning browser software...</div>
+            </div>
+
+            <!-- Painel 2: BuilderFound AI -->
+            <div class="ia-box">
+                <div class="ia-title">🧱 [2] BuilderFound Behavior Scan</div>
+                <div id="builderfound-scan-details">Analyzing physical device hardware...</div>
+            </div>
             
             <div class="cablox-captcha-box" id="captcha-display">----</div>
-            <input type="text" id="captcha-input" class="cablox-input" placeholder="Type CAPTCHA here">
+            <input type="text" id="captcha-input" class="cablox-input" placeholder="Type Verification Code" autocomplete="off">
             
-            <button class="cablox-btn" onclick="verificarCablox()">VERIFY INTERACTION</button>
+            <button class="cablox-btn" onclick="verificarCablox()">EXECUTE SECURITY APPROVAL</button>
             <div class="cablox-logs" id="cablox-log-box"></div>
         </div>
     </div>
@@ -65,24 +76,15 @@
         </span>
     </div>
 
-    <div class="main-banner">
-        <img src="logo.png" height="40" alt="Roblox">
-    </div>
+    <div class="main-banner"><img src="logo.png" height="40" alt="Roblox"></div>
 
     <div class="nav-bar">
-        <a href="index.html">Home</a>
-        <a href="mypage.html">My Page</a>
-        <a href="maintenance.html">Games</a>
-        <a href="install.html">Install</a>
+        <a href="index.html">Home</a><a href="mypage.html">My Page</a><a href="maintenance.html">Games</a><a href="install.html">Install</a>
     </div>
 
     <div class="main-layout">
         <div class="sidebar" id="main-sidebar">
-            <b>My ROBLOX</b>
-            <a href="login.html">Login</a>
-            <a href="login.html">Register</a>
-            <a href="character.html">Character</a>
-            <a href="forum.html">Forum</a>
+            <b>My ROBLOX</b><a href="login.html">Login</a><a href="login.html">Register</a><a href="character.html">Character</a><a href="forum.html">Forum</a>
             <hr>
             <p style="margin:0;">Users Online: <span id="online-counter" style="font-weight: bold;">--</span></p>
         </div>
@@ -91,37 +93,38 @@
             <h2>Featured Games</h2>
             <div class="game-grid">
                 <div class="game-card">
-                    <img src="ChaosCanyonSmall2.png" alt="Chaos Canyon">
-                    <b>Chaos Canyon</b>
+                    <img src="ChaosCanyonSmall2.png" alt="Chaos Canyon"><b>Chaos Canyon</b>
                     <button class="play-btn" onclick="playOof('Chaos Canyon')">Play</button>
                 </div>
                 <div class="game-card">
-                    <img src="screen1.png" alt="Building Room">
-                    <b>Building Room</b>
+                    <img src="screen1.png" alt="Building Room"><b>Building Room</b>
                     <button class="play-btn" onclick="playOof('Building Room')">Play</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="footer">
-        ROBLOX, "Online Building Toy", characters, logos and trading dress are trademarks of ROBLOX Corporation.<br>
-        <a href="#">Privacy Policy</a> | <a href="#">Contact Us</a> | <a href="#">About Us</a> | <a href="#">Jobs</a>
-    </div>
+    <div class="footer">ROBLOX, "Online Building Toy", characters, logos and trading dress are trademarks of ROBLOX Corporation.</div>
 
     <script src="wombat.js"></script>
     <script>
         let captchaGerado = "";
+        let inputTouchDetectado = "Mouse Pointer"; 
+
+        // Monitora fisicamente se o usuário encostou o dedo na tela para calibrar o BuilderFound
+        window.addEventListener('touchstart', function dectetarDedo() {
+            inputTouchDetectado = "Finger Touchscreen";
+            window.removeEventListener('touchstart', dectetarDedo);
+        });
 
         function playOof(nomeDoJogo) {
             var audio = new Audio('Oof.mp3');
-            audio.play().catch(function(e) { console.log("Audio block"); });
+            audio.play().catch(function(e) {});
             alert('Conectando ao Client de 2006... Aguarde.');
             window.location.href = "play.html?game=" + encodeURIComponent(nomeDoJogo);
         }
 
-        // --- ENGENHARIA DE RASTREAMENTO CABLOX AI V1.08 ---
-        function rodarCaBlox() {
+        function rodarVerificacoesDuplas() {
             const screen = document.getElementById('cablox-screen');
             if (sessionStorage.getItem('cablox_verified') === 'true') {
                 screen.style.display = "none";
@@ -132,13 +135,12 @@
 
             const ua = navigator.userAgent;
 
-            // 1. Rastreamento de Hardware
+            // --- 1. SCANNER CABLOX AI v1.08 (Navegador e Dispositivo) ---
             let dispositivo = "PC";
             if (/Mobi|Android|iPhone/i.test(ua)) dispositivo = "Celular";
             else if (/Tablet|iPad/i.test(ua)) dispositivo = "Tablet";
             else if (/Macintosh|Windows/i.test(ua) && window.screen.width < 1100) dispositivo = "Notebook";
 
-            // 2. Rastreamento Avançado de Navegadores (Filtros V1.08)
             let navegador = "Internet Explorer";
             if (ua.includes("Firefox") && !ua.includes("Seamonkey")) navegador = "Firefox";
             else if (ua.includes("MiBrowser")) navegador = "Mi Browser";
@@ -146,29 +148,48 @@
             else if (ua.includes("Edg/")) navegador = "Edge";
             else if (ua.includes("Chrome") && !ua.includes("Chromium")) navegador = "Chrome";
             else if (ua.includes("Safari") && !ua.includes("Chrome") && !ua.includes("Edg")) navegador = "Safari";
-            else if (ua.includes("MSIE") || ua.includes("Trident/")) navegador = "Internet Explorer";
 
-            // 3. Sistema Heurístico de Suspeita
-            let suspeito = "Não";
-            if (dispositivo === "Celular" || navegador === "Opera" || navegador === "Internet Explorer") {
-                suspeito = "Sim (Assinatura Incomum)";
-            }
+            document.getElementById('cablox-scan-details').innerHTML = `Browser: ${navegador} | Environment: ${dispositivo}`;
 
-            // 4. Salvamento Estrutural na Pasta "Lock"
-            const logSeguranca = {
-                timestamp: new Date().toLocaleString(),
-                hardware: dispositivo,
-                browser: navegador,
-                is_suspicious: suspeito,
-                captcha_status: "Pending"
-            };
-            localStorage.setItem('Lock_cablox_scan', JSON.stringify(logSeguranca));
+            // --- 2. SCANNER BUILDERFOUND AI (Análise Física Comportamental) ---
+            // A. Detecção de Sistema Operacional Exato
+            let so = "Unknown OS";
+            if (ua.includes("Windows")) so = "Windows";
+            else if (ua.includes("Android")) so = "Android";
+            else if (/iPhone|iPad|iPod/.test(ua)) so = "iOS";
+            else if (ua.includes("Macintosh")) so = "macOS";
+            else if (ua.includes("Linux")) so = "Linux";
 
-            document.getElementById('cablox-scan-details').innerHTML = `
-                Device: ${dispositivo}<br>Browser: ${navegador}<br>
-                Suspicious: <span style="color:${suspeito.includes('Sim') ? 'red':'green'}">${suspeito}</span>
+            // B. Detecção de Layout e Tamanhos de Botão recomendados
+            let layoutLayout = (dispositivo === "Celular" || dispositivo === "Tablet") ? "Mobile UI Layout (Big Buttons)" : "Desktop UI Layout (Compact)";
+            
+            // C. Dedução de Teclado com base no SO
+            let tecladoProvavel = "Standard PC Keyboard";
+            if (so === "Android") tecladoProvavel = "Google Gboard Keyboard";
+            else if (so === "iOS") tecladoProvavel = "Apple Virtual Keyboard";
+
+            document.getElementById('builderfound-scan-details').innerHTML = `
+                OS: ${so}<br>
+                Layout Mode: ${layoutLayout}<br>
+                Pointer Input: ${inputTouchDetectado}<br>
+                Estimated Input: ${tecladoProvavel}
             `;
 
+            // Lógica Heurística Atualizada (Opera é suspeito!)
+            let suspeito = "Não";
+            if (navegador === "Opera") suspeito = "Sim (ALERTA: Usuário de Opera!)";
+            else if (dispositivo === "Celular") suspeito = "Sim (Acesso Mobile Remoto)";
+
+            // Guardando tudo na caixinha (localStorage) dentro da chave Lock
+            const fullReport = {
+                timestamp: new Date().toLocaleString(),
+                cablox: { browser: navegador, type: dispositivo },
+                builderfound: { os: so, layout: layoutLayout, input: inputTouchDetectado, keyboard: tecladoProvavel },
+                is_suspicious: suspeito
+            };
+            localStorage.setItem('Lock_cablox_scan', JSON.stringify(fullReport));
+
+            // CAPTCHA
             const caracteres = "ABCDEFGHJKLMNOPQRSTUVWXYZ23456789";
             captchaGerado = "";
             for (let i = 0; i < 4; i++) {
@@ -176,7 +197,7 @@
             }
             document.getElementById('captcha-display').innerText = captchaGerado;
 
-            document.getElementById('cablox-log-box').innerHTML = `[INFO] CaBlox Engine V1.08 Ativo...<br>[SCAN] Varredura Concluída.<br>[LOCK] Dados arquivados na pasta Lock.<br>[AWAIT] Aguardando CAPTCHA...`;
+            document.getElementById('cablox-log-box').innerHTML = `[INFO] CaBlox Engine V1.08 Online.<br>[INFO] BuilderFound Hardware Matcher Online.<br>[LOCK] Full tracking frame dispatched to localStorage://Lock.`;
         }
 
         function verificarCablox() {
@@ -184,22 +205,15 @@
             const logBox = document.getElementById('cablox-log-box');
 
             if (input === captchaGerado) {
-                logBox.innerHTML += `<br><span style="color:#00FF00">[SUCCESS] Token Válido.</span>`;
-                let logAtual = JSON.parse(localStorage.getItem('Lock_cablox_scan'));
-                logAtual.captcha_status = "Approved";
-                localStorage.setItem('Lock_cablox_scan', JSON.stringify(logAtual));
+                logBox.innerHTML += `<br><span style="color:#00FF00">[OK] BuilderFound e CaBlox Aprovaram o Dispositivo.</span>`;
                 sessionStorage.setItem('cablox_verified', 'true');
                 setTimeout(() => {
                     document.getElementById('cablox-screen').style.display = "none";
                     inicializarSite();
                 }, 1000);
             } else {
-                logBox.innerHTML += `<br><span style="color:#FF0000">[ALERT] Código Inválido! Reiniciando...</span>`;
-                let logAtual = JSON.parse(localStorage.getItem('Lock_cablox_scan'));
-                logAtual.captcha_status = "Failed Attempt";
-                logAtual.is_suspicious = "Sim (Erro Crítico de CAPTCHA)";
-                localStorage.setItem('Lock_cablox_scan', JSON.stringify(logAtual));
-                setTimeout(() => rodarCaBlox(), 1200);
+                logBox.innerHTML += `<br><span style="color:#FF0000">[FAIL] Quebra de Matriz de Segurança. Recalibrando sensores...</span>`;
+                setTimeout(() => rodarVerificacoesDuplas(), 1200);
             }
         }
 
@@ -238,13 +252,12 @@
             setInterval(gerenciarContadorOnline, 7000);
         }
 
-        function efetuarLogout() {
+        function efeteuarLogout() {
             localStorage.removeItem('is_logged_in');
             window.location.reload();
         }
 
-        window.onload = rodarCaBlox;
+        window.onload = rodarVerificacoesDuplas;
     </script>
 </body>
-    </html>
-    
+</html>
