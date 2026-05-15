@@ -2,27 +2,120 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>ROBLOX.com - Install</title>
+    <title>ROBLOX.com - Install Client</title>
     <style>
         body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
+        .top-header { background-color: #000; color: #FFF; padding: 4px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+        .top-header a { color: #FFF; text-decoration: none; }
         .main-banner { background-color: #000080; padding: 10px; border-bottom: 3px solid #E1E1E1; }
-        .nav-bar { background-color: #ECECEC; border-bottom: 1px solid #A0A0A0; padding: 6px 15px; display: flex; gap: 20px; font-weight: bold; font-size: 13px; }
+        .nav-bar { background-color: #ECECEC; border-top: 1px solid #FFF; border-bottom: 1px solid #A0A0A0; padding: 6px 15px; display: flex; gap: 20px; font-weight: bold; font-size: 13px; }
         .nav-bar a { color: #002E62; text-decoration: none; }
-        .main-layout { padding: 30px; background-color: #FFF; margin: 10px; border: 1px solid #A0A0A0; text-align: center; }
-        .download-box { border: 1px dashed #FF0000; padding: 20px; background: #FFFFAA; display: inline-block; }
-        .dl-btn { background: #008000; color: white; border: 2px solid #004000; padding: 10px 20px; font-weight: bold; font-size: 16px; cursor: pointer; border-radius: 4px; }
+        .nav-bar a:hover { text-decoration: underline; }
+        
+        .main-layout { padding: 30px; background-color: #FFF; margin: 10px; border: 1px solid #A0A0A0; text-align: center; min-height: 400px; }
+        
+        /* Box de Download Estilo 2006 */
+        .download-box { border: 1px dashed #FF0000; padding: 25px; background: #FFFFAA; display: inline-block; max-width: 500px; box-shadow: 3px 3px 0px #999; }
+        .wizard-icon { width: 64px; height: 64px; margin-bottom: 15px; }
+        
+        /* Botões Dinâmicos */
+        .dl-btn { background: #008000; color: white; border: 2px solid #004000; padding: 12px 25px; font-weight: bold; font-size: 16px; cursor: pointer; font-family: Verdana; box-shadow: 2px 2px 0px #000; }
+        .dl-btn:hover { background: #009900; }
+        .update-btn { background: #FF8000; color: white; border: 2px solid #CC6600; padding: 12px 25px; font-weight: bold; font-size: 16px; cursor: pointer; font-family: Verdana; box-shadow: 2px 2px 0px #000; }
+        .update-btn:hover { background: #FFA033; }
+
+        .status-text { font-size: 12px; color: #333; margin: 15px 0; font-weight: bold; }
+        .footer { text-align: center; font-size: 10px; color: #555; padding: 20px 0; border-top: 1px solid #A0A0A0; margin-top: 40px; }
     </style>
 </head>
 <body>
+
+    <div class="top-header"><span></span><span><a href="index.html">Home</a></span></div>
     <div class="main-banner"><img src="logo.png" height="40" alt="Roblox"></div>
     <div class="nav-bar"><a href="index.html">Home</a><a href="mypage.html">My Page</a><a href="maintenance.html">Games</a><a href="install.html">Install</a></div>
+
     <div class="main-layout">
         <div class="download-box">
-            <h2>Download ROBLOX Client (2006)</h2>
-            <p>To play games and build worlds, you must install the ROBLOX software application.</p>
-            <button class="dl-btn" onclick="alert('Iniciando o download do Setup Clássico...')">Download Now</button>
+            <!-- Usa o ícone clássico do instalador (Wizard) do seu próprio repositório -->
+            <img src="Wizard.PNG" class="wizard-icon" alt="Roblox Setup Icon">
+            
+            <h2 id="install-title" style="color: #002E62; margin-top: 0; font-size: 20px;">Install ROBLOX Client (2006)</h2>
+            <p id="install-desc" style="font-size: 12px; color: #555; line-height: 1.5;">
+                To build worlds and join active multiplayer maps, you must install the official ROBLOX executable sandbox client on your computer.
+            </p>
+            
+            <!-- Mostra o status do app coletado pela CaBlox no localStorage -->
+            <div class="status-text" id="app-status">App Status: Not detected in browser system.</div>
+            
+            <!-- Botão que muda de ID, cor e função sozinho -->
+            <button id="action-btn" class="dl-btn" onclick="executarAcaoClient()">Download Now</button>
         </div>
     </div>
-</body>
-</html>
 
+    <div class="footer">
+        ROBLOX, "Online Building Toy", characters, logos and trading dress are trademarks of ROBLOX Corporation.
+    </div>
+
+    <script>
+        // Função que verifica o localStorage para ver se o jogo já foi baixado
+        function verificarEstadoDoApp() {
+            const foiInstalado = localStorage.getItem('roblox_2006_installed') === 'true';
+            const titulo = document.getElementById('install-title');
+            const desc = document.getElementById('install-desc');
+            const status = document.getElementById('app-status');
+            const botao = document.getElementById('action-btn');
+
+            if (foiInstalado) {
+                // Modifica o visual do site removendo o texto de install para o modo UPDATE
+                titulo.innerText = "ROBLOX Client Up to Date";
+                desc.innerText = "The 2006 legacy sandbox client is already successfully configured on your machine. You can check for new optimization patches below.";
+                status.innerHTML = `App Status: <span style="color: green;">✓ Installed (v1.0.2006)</span>`;
+                
+                // Transforma o botão no de Update
+                botao.innerText = "Check for Updates";
+                botao.className = "update-btn";
+            } else {
+                titulo.innerText = "Install ROBLOX Client (2006)";
+                status.innerHTML = `App Status: <span style="color: red;">⚠️ Missing Client Components</span>`;
+                botao.innerText = "Download Now";
+                botao.className = "dl-btn";
+            }
+        }
+
+        function executarAcaoClient() {
+            const foiInstalado = localStorage.getItem('roblox_2006_installed') === 'true';
+
+            if (!foiInstalado) {
+                alert('Iniciando o download do Setup Clássico de 2006... Verifique sua barra de downloads.');
+                
+                // GERA UM EXECUTÁVEL (.EXE) SIMULADO DE VERDADE PARA O USUÁRIO BAIXAR!
+                // É um arquivo de texto dummy renomeado para .exe, seguro e que baixa de verdade.
+                const dadosFalsosDoExe = "[ROBLOX 2006 Client Core Config]\nLauncher=wombat.js\nResolution=800x600\nEngine=v1.0.6";
+                const blob = new Blob([dadosFalsosDoExe], { type: "application/octet-stream" });
+                const urlDownload = window.URL.createObjectURL(blob);
+                
+                const linkInvisivel = document.createElement('a');
+                linkInvisivel.href = urlDownload;
+                linkInvisivel.download = "RobloxPlayer2006Setup.exe"; // Baixa com o nome certinho do instalador
+                document.body.appendChild(linkInvisivel);
+                linkInvisivel.click();
+                document.body.removeChild(linkInvisivel);
+
+                // Salva na caixinha que o app foi instalado
+                localStorage.setItem('roblox_2006_installed', 'true');
+                
+                // Recarrega as mensagens da tela na hora
+                setTimeout(verificarEstadoDoApp, 1000);
+            } else {
+                // Caso clique em Update
+                alert('Buscando atualizações nos servidores da CaBlox AI...');
+                alert('Seu aplicativo já está na versão estável mais recente (v1.0.2006)! Nenhuma atualização pendente.');
+            }
+        }
+
+        // Roda a checagem automática assim que a página abre
+        window.onload = verificarEstadoDoApp;
+    </script>
+</body>
+    </html>
+    
