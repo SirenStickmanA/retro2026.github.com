@@ -7,17 +7,23 @@
         body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
         .top-header { background-color: #000000; color: #FFF; padding: 4px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
         .top-header a { color: #FFF; text-decoration: none; }
-        .main-banner { background-color: #000080; padding: 10px; display: flex; align-items: center; border-bottom: 3px solid #E1E1E1; }
-        .container { max-width: 400px; margin: 40px auto; padding: 0 10px; }
-        .box { background: white; border: 1px solid #A0A0A0; padding: 20px; box-shadow: 2px 2px 0px #999; }
+        .main-banner { background-color: #000080; padding: 10px; border-bottom: 3px solid #E1E1E1; }
+        
+        /* Layout de duas colunas igual a 2006 */
+        .login-layout { max-width: 850px; margin: 30px auto; display: flex; gap: 20px; background: white; border: 1px solid #A0A0A0; padding: 15px; box-shadow: 2px 2px 0px #999; }
+        .banner-side { flex: 1.2; text-align: center; border-right: 1px dashed #A0A0A0; padding-right: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .banner-side img { max-width: 100%; height: auto; border: 1px solid #ccc; }
+        .form-side { flex: 1; padding-left: 5px; }
+        
         h2 { color: #000080; font-size: 18px; margin-top: 0; border-bottom: 1px solid #A0A0A0; padding-bottom: 5px; font-weight: bold; }
-        label { font-size: 12px; font-weight: bold; display: block; margin-top: 10px; color: #333; }
-        input { width: 94%; padding: 6px; margin: 4px 0 12px 0; border: 1px solid #A0A0A0; font-family: Verdana; font-size: 13px; background-color: #FAFAFA; }
-        button { background: #ECECEC; border: 1px solid #A0A0A0; padding: 6px 15px; font-weight: bold; cursor: pointer; font-family: Verdana; font-size: 12px; }
+        label { font-size: 11px; font-weight: bold; display: block; margin-top: 8px; color: #333; }
+        input { width: 92%; padding: 5px; margin: 3px 0 10px 0; border: 1px solid #A0A0A0; font-family: Verdana; font-size: 12px; background-color: #FAFAFA; }
+        button { background: #ECECEC; border: 1px solid #A0A0A0; padding: 6px 15px; font-weight: bold; cursor: pointer; font-family: Verdana; font-size: 11px; }
         button:hover { background: #DDD; }
         .toggle-link { font-size: 11px; margin-top: 15px; text-align: center; color: #002E62; cursor: pointer; text-decoration: underline; }
-        .cablox-scan-box { background: #000; color: #00FF00; font-family: Courier New, monospace; font-size: 11px; padding: 10px; margin-bottom: 15px; border: 1px solid #FF0000; }
-        .cablox-captcha-area { background: #FFF; border: 1px dashed #000; padding: 8px; text-align: center; font-size: 18px; font-weight: bold; letter-spacing: 4px; color: #FF0000; font-style: italic; margin: 8px 0; user-select: none; background-image: linear-gradient(45deg, #eee 25%, transparent 25%), linear-gradient(-45deg, #eee 25%, transparent 25%); background-size: 8px 8px; }
+        
+        .cablox-scan-box { background: #000; color: #00FF00; font-family: Courier New, monospace; font-size: 11px; padding: 8px; margin-bottom: 12px; border: 1px solid #FF0000; }
+        .cablox-captcha-area { background: #FFF; border: 1px dashed #000; padding: 6px; text-align: center; font-size: 18px; font-weight: bold; letter-spacing: 4px; color: #FF0000; font-style: italic; margin: 6px 0; user-select: none; background-image: linear-gradient(45deg, #eee 25%, transparent 25%), linear-gradient(-45deg, #eee 25%, transparent 25%); background-size: 8px 8px; }
     </style>
 </head>
 <body>
@@ -25,28 +31,39 @@
     <div class="top-header"><span></span><span><a href="index.html">Back to Home</a> | Help</span></div>
     <div class="main-banner"><img src="logo.png" height="40" alt="Roblox"></div>
 
-    <div class="container">
-        <div class="box" id="login-box">
-            <h2>Log In to ROBLOX</h2>
-            <div class="cablox-scan-box">
-                🛡️ CaBlox AI Scan V1.08:<br><span id="login-scan-info">Analyzing core hooks...</span>
-            </div>
-            <label for="login-user">Username:</label><input type="text" id="login-user">
-            <label for="login-pass">Password:</label><input type="password" id="login-pass">
-            <label>Security CAPTCHA:</label>
-            <div class="cablox-captcha-area" id="login-captcha-display">----</div>
-            <input type="text" id="login-captcha-input" placeholder="Type CAPTCHA here" style="text-transform: uppercase;">
-            <button onclick="efetuarLogin()">Log In</button>
-            <div class="toggle-link" onclick="alternarAbas()">Don't have an account? Register here</div>
+    <div class="login-layout">
+        <!-- Lado Esquerdo: Banner Clássico do seu repositório -->
+        <div class="banner-side">
+            <img src="SignupBanner.png" alt="Join ROBLOX Today!">
+            <p style="font-size: 11px; color: #555; margin-top: 10px;">Free online building toy. Place blocks, script maps, and play with friends!</p>
         </div>
 
-        <div class="box" id="register-box" style="display: none;">
-            <h2>Register to ROBLOX</h2>
-            <label for="reg-user">Username:</label><input type="text" id="reg-user">
-            <label for="reg-email">Email:</label><input type="email" id="reg-email">
-            <label for="reg-pass">Password:</label><input type="password" id="reg-pass">
-            <button onclick="efetuarRegistro()">Create Account</button>
-            <div class="toggle-link" onclick="alternarAbas()">Already have an account? Log In here</div>
+        <!-- Lado Direito: Caixa de Entrada da CaBlox e Formulários -->
+        <div class="form-side">
+            <!-- ABA LOGIN -->
+            <div id="login-box">
+                <h2>Log In to ROBLOX</h2>
+                <div class="cablox-scan-box">
+                    🛡️ CaBlox AI Scan V1.08:<br><span id="login-scan-info">Analyzing core hooks...</span>
+                </div>
+                <label for="login-user">Username:</label><input type="text" id="login-user">
+                <label for="login-pass">Password:</label><input type="password" id="login-pass">
+                <label>Security CAPTCHA:</label>
+                <div class="cablox-captcha-area" id="login-captcha-display">----</div>
+                <input type="text" id="login-captcha-input" placeholder="Type CAPTCHA" style="text-transform: uppercase;">
+                <button onclick="efetuarLogin()">Log In</button>
+                <div class="toggle-link" onclick="alternarAbas()">Don't have an account? Register here</div>
+            </div>
+
+            <!-- ABA REGISTRO -->
+            <div id="register-box" style="display: none;">
+                <h2>Register to ROBLOX</h2>
+                <label for="reg-user">Username:</label><input type="text" id="reg-user">
+                <label for="reg-email">Email Address:</label><input type="email" id="reg-email">
+                <label for="reg-pass">Password:</label><input type="password" id="reg-pass">
+                <button onclick="efetuarRegistro()">Create Account</button>
+                <div class="toggle-link" onclick="alternarAbas()">Already have an account? Log In here</div>
+            </div>
         </div>
     </div>
 
@@ -63,7 +80,6 @@
             }
         }
 
-        // --- DETECTORES DE NAVEGADORES V1.08 CORRIGIDOS ---
         function rodarCaBloxLogin() {
             const ua = navigator.userAgent;
             let dispositivo = "PC";
@@ -78,7 +94,7 @@
             else if (ua.includes("Chrome") && !ua.includes("Chromium")) navegador = "Chrome";
             else if (ua.includes("Safari") && !ua.includes("Chrome") && !ua.includes("Edg")) navegador = "Safari";
 
-            document.getElementById('login-scan-info').innerHTML = `Device: ${dispositivo}<br>Browser: ${navegador}<br>Lock: Secured`;
+            document.getElementById('login-scan-info').innerHTML = `Device: ${dispositivo}<br>Browser: ${navegador}<br>Lock Status: Active`;
 
             const caracteres = "ABCDEFGHJKLMNOPQRSTUVWXYZ23456789";
             captchaLoginGerado = "";
@@ -88,7 +104,7 @@
             document.getElementById('login-captcha-display').innerText = captchaLoginGerado;
         }
 
-        function efeteuarRegistro() {
+        function efetuarRegistro() {
             const user = document.getElementById('reg-user').value.trim();
             const email = document.getElementById('reg-email').value.trim();
             const pass = document.getElementById('reg-pass').value.trim();
@@ -129,5 +145,4 @@
         window.onload = rodarCaBloxLogin;
     </script>
 </body>
-                                                       </html>
-        
+</html>
