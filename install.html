@@ -12,10 +12,10 @@
         .nav-bar a { color: #002E62; text-decoration: none; }
         .nav-bar a:hover { text-decoration: underline; }
         
-        .main-layout { padding: 30px; background-color: #FFF; margin: 10px; border: 1px solid #A0A0A0; text-align: center; min-height: 400px; }
+        .main-layout { padding: 30px; background-color: #FFF; margin: 10px; border: 1px solid #A0A0A0; text-align: center; min-height: 420px; }
         
         /* Box de Download Estilo 2006 */
-        .download-box { border: 1px dashed #FF0000; padding: 25px; background: #FFFFAA; display: inline-block; max-width: 500px; box-shadow: 3px 3px 0px #999; }
+        .download-box { border: 1px dashed #FF0000; padding: 25px; background: #FFFFAA; display: inline-block; width: 100%; max-width: 520px; box-shadow: 3px 3px 0px #999; box-sizing: border-box; }
         .wizard-icon { width: 64px; height: 64px; margin-bottom: 15px; }
         
         /* Botões Dinâmicos */
@@ -26,6 +26,14 @@
 
         .status-text { font-size: 12px; color: #333; margin: 15px 0; font-weight: bold; }
         .footer { text-align: center; font-size: 10px; color: #555; padding: 20px 0; border-top: 1px solid #A0A0A0; margin-top: 40px; }
+
+        /* --- TELA DO INSTALADOR EXECUTÁVEL SIMULADO --- */
+        .installer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center; }
+        .installer-window { background: #ECE9D8; border: 2px solid #0054E3; width: 450px; padding: 15px; box-shadow: 4px 4px 10px #000; font-family: Tahoma, Arial, sans-serif; font-size: 12px; text-align: left; color: #000; border-radius: 4px 4px 0 0; }
+        .installer-title { background: linear-gradient(to right, #0054E3, #267DFF); color: white; padding: 5px; font-weight: bold; margin: -15px -15px 15px -15px; border-radius: 3px 3px 0 0; font-size: 13px; display: flex; justify-content: space-between; }
+        .progress-container { background: white; border: 1px solid #7F9DB9; height: 22px; width: 100%; margin: 15px 0; position: relative; }
+        .progress-bar { background: linear-gradient(to bottom, #30FA30, #00C000); height: 100%; width: 0%; transition: width 0.1s linear; }
+        .installer-logs { font-family: monospace; font-size: 11px; background: #FFF; border: 1px solid #7F9DB9; padding: 6px; height: 60px; overflow-y: auto; color: #333; }
     </style>
 </head>
 <body>
@@ -36,19 +44,34 @@
 
     <div class="main-layout">
         <div class="download-box">
-            <!-- Usa o ícone clássico do instalador (Wizard) do seu próprio repositório -->
             <img src="Wizard.PNG" class="wizard-icon" alt="Roblox Setup Icon">
             
             <h2 id="install-title" style="color: #002E62; margin-top: 0; font-size: 20px;">Install ROBLOX Client (2006)</h2>
             <p id="install-desc" style="font-size: 12px; color: #555; line-height: 1.5;">
-                To build worlds and join active multiplayer maps, you must install the official ROBLOX executable sandbox client on your computer.
+                To build worlds and join active multiplayer maps, you must install the official ROBLOX sandbox client.
             </p>
             
-            <!-- Mostra o status do app coletado pela CaBlox no localStorage -->
-            <div class="status-text" id="app-status">App Status: Not detected in browser system.</div>
+            <div class="status-text" id="app-status">App Status: Scanning platform components...</div>
             
-            <!-- Botão que muda de ID, cor e função sozinho -->
-            <button id="action-btn" class="dl-btn" onclick="executarAcaoClient()">Download Now</button>
+            <button id="action-btn" class="dl-btn" onclick="iniciarJanelaInstalador()">Download Now</button>
+        </div>
+    </div>
+
+    <!-- JANELA DO ASSISTENTE DE INSTALAÇÃO (WINDOWS XP STYLE) -->
+    <div id="installer-screen" class="installer-overlay">
+        <div class="installer-window">
+            <div class="installer-title">
+                <span>ROBLOX Setup Wizard</span>
+                <span style="cursor:default;">X</span>
+            </div>
+            <p style="margin: 5px 0;"><strong>Installing:</strong> ROBLOX Sandbox Client v1.0.2006</p>
+            <p id="installer-current-action" style="color: #444; margin: 5px 0;">Extracting setup resources...</p>
+            
+            <div class="progress-container">
+                <div id="setup-progress" class="progress-bar"></div>
+            </div>
+            
+            <div id="setup-logs" class="installer-logs">Initializing CaBlox system hooks...</div>
         </div>
     </div>
 
@@ -57,7 +80,27 @@
     </div>
 
     <script>
-        // Função que verifica o localStorage para ver se o jogo já foi baixado
+        let nomeDoSetupParaBaixar = "RobloxPlayer2006PC.exe";
+        let nomeDoAppFinal = "RobloxPlayer2006.exe";
+        let isMobile = false;
+
+        // Detector CaBlox AI V1.08 integrado para descobrir o arquivo correto
+        function detectarAparelhoEConfigurar() {
+            const ua = navigator.userAgent;
+            
+            if (/Mobi|Android|iPhone|iPad|Tablet/i.test(ua)) {
+                isMobile = true;
+                nomeDoSetupParaBaixar = "RobloxPlayer2006SetupMobile.apk"; 
+                nomeDoAppFinal = "RobloxPlayer2006Mobile.apk";
+            } else {
+                isMobile = false;
+                nomeDoSetupParaBaixar = "RobloxPlayer2006PC.exe";
+                nomeDoAppFinal = "RobloxPlayer2006.exe";
+            }
+
+            verificarEstadoDoApp();
+        }
+
         function verificarEstadoDoApp() {
             const foiInstalado = localStorage.getItem('roblox_2006_installed') === 'true';
             const titulo = document.getElementById('install-title');
@@ -66,56 +109,100 @@
             const botao = document.getElementById('action-btn');
 
             if (foiInstalado) {
-                // Modifica o visual do site removendo o texto de install para o modo UPDATE
                 titulo.innerText = "ROBLOX Client Up to Date";
-                desc.innerText = "The 2006 legacy sandbox client is already successfully configured on your machine. You can check for new optimization patches below.";
-                status.innerHTML = `App Status: <span style="color: green;">✓ Installed (v1.0.2006)</span>`;
+                desc.innerText = `The 2006 legacy sandbox client (${nomeDoAppFinal}) is already successfully configured on your machine.`;
+                status.innerHTML = `App Status: <span style="color: green;">✓ Installed (${isMobile ? 'Mobile App' : 'PC App'})</span>`;
                 
-                // Transforma o botão no de Update
                 botao.innerText = "Check for Updates";
                 botao.className = "update-btn";
+                botao.setAttribute("onclick", "buscarUpdates()");
             } else {
-                titulo.innerText = "Install ROBLOX Client (2006)";
-                status.innerHTML = `App Status: <span style="color: red;">⚠️ Missing Client Components</span>`;
+                titulo.innerText = `Install ROBLOX for ${isMobile ? 'Mobile' : 'PC'}`;
+                status.innerHTML = `App Status: <span style="color: red;">⚠️ Download Recommended: ${nomeDoSetupParaBaixar}</span>`;
                 botao.innerText = "Download Now";
                 botao.className = "dl-btn";
+                botao.setAttribute("onclick", "iniciarJanelaInstalador()");
             }
         }
 
-        function executarAcaoClient() {
-            const foiInstalado = localStorage.getItem('roblox_2006_installed') === 'true';
+        // DISPARA O EXECUTÁVEL DE CARREGAMENTO DIRETO NO SITE
+        function iniciarJanelaInstalador() {
+            alert(`Baixando o assistente inicial: ${nomeDoSetupParaBaixar}. Aguarde a execução automática.`);
+            
+            // Abre a tela do instalador Windows XP style
+            const telaInstalador = document.getElementById('installer-screen');
+            telaInstalador.style.display = "flex";
 
-            if (!foiInstalado) {
-                alert('Iniciando o download do Setup Clássico de 2006... Verifique sua barra de downloads.');
-                
-                // GERA UM EXECUTÁVEL (.EXE) SIMULADO DE VERDADE PARA O USUÁRIO BAIXAR!
-                // É um arquivo de texto dummy renomeado para .exe, seguro e que baixa de verdade.
-                const dadosFalsosDoExe = "[ROBLOX 2006 Client Core Config]\nLauncher=wombat.js\nResolution=800x600\nEngine=v1.0.6";
-                const blob = new Blob([dadosFalsosDoExe], { type: "application/octet-stream" });
-                const urlDownload = window.URL.createObjectURL(blob);
-                
-                const linkInvisivel = document.createElement('a');
-                linkInvisivel.href = urlDownload;
-                linkInvisivel.download = "RobloxPlayer2006Setup.exe"; // Baixa com o nome certinho do instalador
-                document.body.appendChild(linkInvisivel);
-                linkInvisivel.click();
-                document.body.removeChild(linkInvisivel);
+            const barra = document.getElementById('setup-progress');
+            const textoAcao = document.getElementById('installer-current-action');
+            const logsBox = document.getElementById('setup-logs');
 
-                // Salva na caixinha que o app foi instalado
-                localStorage.setItem('roblox_2006_installed', 'true');
-                
-                // Recarrega as mensagens da tela na hora
-                setTimeout(verificarEstadoDoApp, 1000);
-            } else {
-                // Caso clique em Update
-                alert('Buscando atualizações nos servidores da CaBlox AI...');
-                alert('Seu aplicativo já está na versão estável mais recente (v1.0.2006)! Nenhuma atualização pendente.');
-            }
+            let progresso = 0;
+            logsBox.innerHTML = `[START] Executing ${nomeDoSetupParaBaixar}...`;
+
+            // Linhas de log que vão aparecendo conforme a instalação avança
+            const passosDoInstalador = [
+                { p: 15, txt: "Unpacking main game assets...", log: "<br>[INFO] Extracting maps: Chaos Canyon, Crossroads..." },
+                { p: 40, txt: "Configuring graphics sandbox layers...", log: "<br>[RENDER] Setting up GDI+ rendering pipelines..." },
+                { p: 65, txt: "Injecting CaBlox AI client validation protocols...", log: "<br>[SECURITY] Storage sandbox linked into 'localStorage'..." },
+                { p: 85, txt: "Creating desktop and application shortcuts...", log: "<br>[LINK] Executable routes pointing to play.html..." },
+                { p: 100, txt: "Installation complete! Packaging final client...", log: "<br>[SUCCESS] Core registry keys configured successfully." }
+            ];
+
+            // Intervalo que faz a barra encher simulando a instalação real
+            const intervaloInstalacao = setInterval(() => {
+                progresso += 2;
+                barra.style.width = progresso + "%";
+
+                // Checa se bateu em algum passo de log para atualizar o texto da tela
+                passosDoInstalador.forEach(passo => {
+                    if (progresso === passo.p) {
+                        textoAcao.innerText = passo.txt;
+                        logsBox.innerHTML += passo.log;
+                        logsBox.scrollTop = logsBox.scrollHeight;
+                    }
+                });
+
+                if (progresso >= 100) {
+                    clearInterval(intervaloInstalacao);
+                    
+                    setTimeout(() => {
+                        // Fecha o instalador de carregamento
+                        telaInstalador.style.display = "none";
+                        
+                        // DISPARA O DOWNLOAD DO JOGO/APP FINAL!
+                        alert(`Instalação Concluída! Baixando agora o arquivo final: ${nomeDoAppFinal}`);
+                        dispararDownloadFisico(nomeDoAppFinal);
+
+                        // Salva o estado no localStorage do navegador
+                        localStorage.setItem('roblox_2006_installed', 'true');
+                        detectarAparelhoEConfigurar();
+                    }, 800);
+                }
+            }, 80); // Velocidade do carregamento
         }
 
-        // Roda a checagem automática assim que a página abre
-        window.onload = verificarEstadoDoApp;
+        // Cria o arquivo dummy físico (.exe ou .apk) seguro para download direto no navegador
+        function dispararDownloadFisico(nomeArquivo) {
+            const dadosDummy = "[ROBLOX 2006 Client File]\nStatus=VerifiedByCaBlox\nEngine=v1.0.8";
+            const blob = new Blob([dadosDummy], { type: "application/octet-stream" });
+            const url = window.URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = nomeArquivo;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function buscarUpdates() {
+            alert('Buscando patches de otimização nos servidores da CaBlox AI...');
+            alert('Seu aplicativo já está sincronizado na build mais estável e recente (v1.0.2006)!');
+        }
+
+        // Roda os rastreadores assim que a janela carrega
+        window.onload = detectarAparelhoEConfigurar;
     </script>
 </body>
-    </html>
-    
+</html>
