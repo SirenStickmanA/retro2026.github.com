@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>CaBlox AI - Lock Directory Viewer</title>
+    <style>
+        body { background-color: #000; color: #00FF00; font-family: 'Courier New', monospace; margin: 20px; }
+        .panel { border: 2px solid #FF0000; padding: 15px; background: #0a0a0a; box-shadow: 0 0 10px #FF0000; }
+        h2 { color: #FF0000; margin-top: 0; border-bottom: 1px solid #FF0000; padding-bottom: 5px; }
+        .log-line { margin: 8px 0; border-bottom: 1px dashed #333; padding-bottom: 4px; }
+        .label { color: #aaa; }
+        .value { color: #00FF00; font-weight: bold; }
+        .alert { color: #FF0000; font-weight: bold; }
+        button { background: #333; color: #FFF; border: 1px solid #FF0000; padding: 5px 10px; cursor: pointer; font-family: 'Courier New'; }
+        button:hover { background: #FF0000; color: #000; }
+    </style>
+</head>
+<body>
+
+    <div class="panel">
+        <h2>📁 Directory: localStorage://Lock/</h2>
+        <div id="lock-content">Nenhum log encontrado na pasta virtual.</div>
+        <br>
+        <button onclick="limparPastaLock()">Limpar Registros (Wipe Lock)</button>
+        <br><br>
+        <a href="index.html" style="color: #0099FF; text-decoration: none;">← Voltar para a Home do ROBLOX</a>
+    </div>
+
+    <script>
+        function carregarLogs() {
+            const container = document.getElementById('lock-content');
+            const scanData = localStorage.getItem('Lock_cablox_scan');
+            const breachData = localStorage.getItem('Lock_auth_breach');
+            const loginData = localStorage.getItem('Lock_last_login');
+
+            let html = "";
+
+            if (scanData) {
+                const log = JSON.parse(scanData);
+                html += `<div class="log-line">
+                    [${log.timestamp}] <span class="alert">SYSTEM_SCAN</span><br>
+                    <span class="label">Dispositivo:</span> <span class="value">${log.hardware}</span> | 
+                    <span class="label">Navegador:</span> <span class="value">${log.browser}</span><br>
+                    <span class="label">Atividade Suspeita:</span> <span class="${log.is_suspicious.includes('Sim') ? 'alert' : 'value'}">${log.is_suspicious}</span> | 
+                    <span class="label">CAPTCHA:</span> <span class="value">${log.captcha_status}</span>
+                </div>`;
+            }
+
+            if (breachData) {
+                const log = JSON.parse(breachData);
+                html += `<div class="log-line" style="color: #FF0000;">
+                    [${log.timestamp}] ⚠️ <span class="alert">SECURITY_BREACH_ATTEMPT</span><br>
+                    <span class="label">Motivo:</span> Errou o CAPTCHA no painel de autenticação.<br>
+                    <span class="label">Usuário Alvo:</span> <span class="value" style="color:#FFF;">${log.user || 'Desconhecido'}</span>
+                </div>`;
+            }
+
+            if (loginData) {
+                const log = JSON.parse(loginData);
+                html += `<div class="log-line">
+                    [${log.timestamp}] 🔓 <span style="color: #00FF00;">AUTH_SUCCESS</span><br>
+                    <span class="label">Usuário ID:</span> <span class="value">#${log.id || 'Session'}</span> logou com sucesso.<br>
+                    <span class="label">Ação:</span> Token de sessão injetado.
+                </div>`;
+            }
+
+            if (html === "") {
+                container.innerHTML = "Pasta Lock vazia. Nenhum dado de rastreamento gerado ainda.";
+            } else {
+                container.innerHTML = html;
+            }
+        }
+
+        function limparPastaLock() {
+            if(confirm("Deseja deletar todos os logs de segurança coletados pela CaBlox?")) {
+                localStorage.removeItem('Lock_cablox_scan');
+                localStorage.removeItem('Lock_auth_breach');
+                localStorage.removeItem('Lock_last_login');
+                carregarLogs();
+            }
+        }
+
+        // Executa ao abrir
+        window.onload = carregarLogs;
+    </script>
+</body>
+</html>
