@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { background: #111; color: #00FF00; font-family: monospace; margin: 0; padding: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .dpad { display: grid; grid-template-columns: repeat(3, 35px); gap: 3px; }
+        .btn { background: #333; border: 1px solid #555; color: white; text-align: center; padding: 8px 0; font-weight: bold; border-radius: 4px; user-select: none; font-size: 14px; cursor: pointer; }
+        .btn:active { background: #FF0000; }
+        .info { font-size: 11px; text-align: right; line-height: 1.4; padding-right: 10px; }
+    </style>
+</head>
+<body>
+    <!-- Controles Virtuais Touch -->
+    <div class="dpad">
+        <div></div><div class="btn">▲</div><div></div>
+        <div class="btn">◀</div><div class="btn" onclick="alert('Oof!')">O</div><div class="btn">▶</div>
+        <div></div><div class="btn">▼</div><div></div>
+    </div>
+    
+    <div class="info">
+        📱 CaBlox Input: Mobile Mode Active<br>
+        Touch D-Pad to move your Noob avatar.
+    </div>
+</body>
+</html>
+
