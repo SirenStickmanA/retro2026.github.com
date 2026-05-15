@@ -6,45 +6,31 @@
     
     <style>
         body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
-        
-        /* Faixa superior preta original de 2006 */
         .top-header { background-color: #000000; color: #FFF; padding: 4px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
         .top-header a { color: #FFF; text-decoration: none; }
         .top-header a:hover { text-decoration: underline; }
-        
-        /* Banner azul escuro onde fica o logotipo */
         .main-banner { background-color: #000080; padding: 10px; display: flex; align-items: center; border-bottom: 3px solid #E1E1E1; }
-        
-        /* Barra de navegação cinza clássica */
         .nav-bar { background-color: #ECECEC; border-top: 1px solid #FFF; border-bottom: 1px solid #A0A0A0; padding: 6px 15px; display: flex; gap: 20px; font-weight: bold; font-size: 13px; }
         .nav-bar a { color: #002E62; text-decoration: none; }
         .nav-bar a:hover { text-decoration: underline; }
-        
-        /* Layout estrutural e áreas de conteúdo */
         .main-layout { display: flex; padding: 15px; gap: 15px; background-color: #FFF; margin: 10px; border: 1px solid #A0A0A0; min-height: 500px; }
         .sidebar { width: 160px; background: #EFEFEF; border: 1px solid #A0A0A0; padding: 8px; font-size: 12px; }
         .sidebar b { color: #222; font-size: 13px; display: block; margin-bottom: 5px; }
         .sidebar a { color: #002E62; text-decoration: none; display: block; margin: 4px 0; }
         .sidebar a:hover { text-decoration: underline; }
         .sidebar hr { border: 0; border-top: 1px dashed #A0A0A0; margin: 10px 0; }
-        
         .content { flex: 1; }
         .content h2 { font-size: 18px; color: #002E62; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid #A0A0A0; padding-bottom: 5px; }
-        
-        /* Grid de jogos e botões */
         .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .game-card { background: white; border: 1px solid #A0A0A0; padding: 8px; text-align: center; font-size: 12px; }
         .game-card b { color: #002E62; display: block; margin-bottom: 5px; }
         .game-card img { width: 100%; max-width: 180px; height: auto; border: 1px solid #A0A0A0; margin-bottom: 5px; display: inline-block; }
-        
         .play-btn { display: block; margin: 5px auto 0 auto; background: url('PlayButton_Green.png') no-repeat center; background-size: contain; width: 64px; height: 64px; border: none; cursor: pointer; color: transparent; overflow: hidden; }
-        
-        /* Rodapé institucional retro */
         .footer { text-align: center; font-size: 10px; color: #555; padding: 20px 0; border-top: 1px solid #A0A0A0; margin: 10px; }
         .footer a { color: #002E62; text-decoration: none; }
         .footer a:hover { text-decoration: underline; }
 
-        /* --- ESTILOS DA IA CABLOX SECURITY --- */
+        /* --- ESTILOS DA IA CABLOX SECURITY V1.08 --- */
         .cablox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 9999; align-items: center; justify-content: center; }
         .cablox-modal { background: #E1E1E1; border: 3px double #FF0000; width: 380px; padding: 15px; font-family: Courier New, monospace; font-size: 12px; box-shadow: 5px 5px 0px #000; }
         .cablox-header { background: #000080; color: white; padding: 4px; font-weight: bold; font-size: 13px; text-align: center; margin-bottom: 10px; }
@@ -57,12 +43,12 @@
 </head>
 <body>
 
-    <!-- Janela Pop-up de Verificação CaBlox AI -->
+    <!-- Janela CaBlox AI V1.08 -->
     <div id="cablox-screen" class="cablox-overlay">
         <div class="cablox-modal">
-            <div class="cablox-header">🛡️ CaBlox AI Security v1.06</div>
-            <p style="margin: 5px 0;"><strong>STATUS:</strong> Scanning connection...</p>
-            <div id="cablox-scan-details">Detectando hardware...</div>
+            <div class="cablox-header">🛡️ CaBlox AI Security v1.08</div>
+            <p style="margin: 5px 0;"><strong>STATUS:</strong> Engine Active...</p>
+            <div id="cablox-scan-details">Scanning framework...</div>
             
             <div class="cablox-captcha-box" id="captcha-display">----</div>
             <input type="text" id="captcha-input" class="cablox-input" placeholder="Type CAPTCHA here">
@@ -72,7 +58,6 @@
         </div>
     </div>
 
-    <!-- Top Header Superior Dinâmico -->
     <div class="top-header">
         <span></span>
         <span id="header-auth-links">
@@ -80,12 +65,10 @@
         </span>
     </div>
 
-    <!-- Banner do Logotipo -->
     <div class="main-banner">
         <img src="logo.png" height="40" alt="Roblox">
     </div>
 
-    <!-- Barra de Navegação Conectada -->
     <div class="nav-bar">
         <a href="index.html">Home</a>
         <a href="mypage.html">My Page</a>
@@ -93,9 +76,7 @@
         <a href="install.html">Install</a>
     </div>
 
-    <!-- Container Principal do Layout -->
     <div class="main-layout">
-        <!-- A Sidebar se atualiza de acordo com o status de login via JavaScript -->
         <div class="sidebar" id="main-sidebar">
             <b>My ROBLOX</b>
             <a href="login.html">Login</a>
@@ -112,20 +93,17 @@
                 <div class="game-card">
                     <img src="ChaosCanyonSmall2.png" alt="Chaos Canyon">
                     <b>Chaos Canyon</b>
-                    <!-- Envia dinamicamente o nome correto do mapa via parâmetro -->
                     <button class="play-btn" onclick="playOof('Chaos Canyon')">Play</button>
                 </div>
                 <div class="game-card">
                     <img src="screen1.png" alt="Building Room">
                     <b>Building Room</b>
-                    <!-- Envia dinamicamente o nome correto do mapa via parâmetro -->
                     <button class="play-btn" onclick="playOof('Building Room')">Play</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Rodapé Clássico -->
     <div class="footer">
         ROBLOX, "Online Building Toy", characters, logos and trading dress are trademarks of ROBLOX Corporation.<br>
         <a href="#">Privacy Policy</a> | <a href="#">Contact Us</a> | <a href="#">About Us</a> | <a href="#">Jobs</a>
@@ -135,48 +113,48 @@
     <script>
         let captchaGerado = "";
 
-        // Sistema de disparo do áudio e redirecionamento de jogo com parâmetros dinâmicos
         function playOof(nomeDoJogo) {
             var audio = new Audio('Oof.mp3');
-            audio.play().catch(function(e) { console.log("Áudio necessita de interação."); });
+            audio.play().catch(function(e) { console.log("Audio block"); });
             alert('Conectando ao Client de 2006... Aguarde.');
             window.location.href = "play.html?game=" + encodeURIComponent(nomeDoJogo);
         }
 
-        // --- SISTEMA INTELIGENTE CABLOX AI SECURITY ---
+        // --- ENGENHARIA DE RASTREAMENTO CABLOX AI V1.08 ---
         function rodarCaBlox() {
             const screen = document.getElementById('cablox-screen');
-            
-            // Caso já esteja verificado na sessão, pula a checagem
             if (sessionStorage.getItem('cablox_verified') === 'true') {
                 screen.style.display = "none";
                 inicializarSite();
                 return;
             }
-
             screen.style.display = "flex";
 
-            // 1. Detecção Realista de Dispositivo
             const ua = navigator.userAgent;
+
+            // 1. Rastreamento de Hardware
             let dispositivo = "PC";
             if (/Mobi|Android|iPhone/i.test(ua)) dispositivo = "Celular";
             else if (/Tablet|iPad/i.test(ua)) dispositivo = "Tablet";
             else if (/Macintosh|Windows/i.test(ua) && window.screen.width < 1100) dispositivo = "Notebook";
 
-            // 2. Detecção Realista de Navegador
+            // 2. Rastreamento Avançado de Navegadores (Filtros V1.08)
             let navegador = "Internet Explorer";
-            if (ua.includes("Opera") || ua.includes("OPR")) navegador = "Opera";
+            if (ua.includes("Firefox") && !ua.includes("Seamonkey")) navegador = "Firefox";
             else if (ua.includes("MiBrowser")) navegador = "Mi Browser";
-            else if (ua.includes("Chrome")) navegador = "Chrome";
-            else if (ua.includes("Safari") && !ua.includes("Chrome")) navegador = "Safari";
+            else if (ua.includes("Opr/") || ua.includes("OPR") || ua.includes("Opera")) navegador = "Opera";
+            else if (ua.includes("Edg/")) navegador = "Edge";
+            else if (ua.includes("Chrome") && !ua.includes("Chromium")) navegador = "Chrome";
+            else if (ua.includes("Safari") && !ua.includes("Chrome") && !ua.includes("Edg")) navegador = "Safari";
+            else if (ua.includes("MSIE") || ua.includes("Trident/")) navegador = "Internet Explorer";
 
-            // 3. Sistema de Análise de Suspeita (IA CaBlox)
+            // 3. Sistema Heurístico de Suspeita
             let suspeito = "Não";
-            if (dispositivo === "Celular" || navegador === "Opera") {
-                suspeito = "Sim (Comportamento Incomum)";
+            if (dispositivo === "Celular" || navegador === "Opera" || navegador === "Internet Explorer") {
+                suspeito = "Sim (Assinatura Incomum)";
             }
 
-            // 4. Criação da Pasta "Lock" simulada no LocalStorage
+            // 4. Salvamento Estrutural na Pasta "Lock"
             const logSeguranca = {
                 timestamp: new Date().toLocaleString(),
                 hardware: dispositivo,
@@ -186,14 +164,11 @@
             };
             localStorage.setItem('Lock_cablox_scan', JSON.stringify(logSeguranca));
 
-            // Exibe os dados coletados pela IA na telinha
             document.getElementById('cablox-scan-details').innerHTML = `
-                Device: ${dispositivo}<br>
-                Browser: ${navegador}<br>
-                Suspicious Activity: <span style="color:${suspeito.includes('Sim') ? 'red':'green'}">${suspeito}</span>
+                Device: ${dispositivo}<br>Browser: ${navegador}<br>
+                Suspicious: <span style="color:${suspeito.includes('Sim') ? 'red':'green'}">${suspeito}</span>
             `;
 
-            // 5. Geração do CAPTCHA Alfa-numérico de 4 dígitos
             const caracteres = "ABCDEFGHJKLMNOPQRSTUVWXYZ23456789";
             captchaGerado = "";
             for (let i = 0; i < 4; i++) {
@@ -201,9 +176,7 @@
             }
             document.getElementById('captcha-display').innerText = captchaGerado;
 
-            // Logs da IA estilo terminal hacker
-            const logBox = document.getElementById('cablox-log-box');
-            logBox.innerHTML = `[INFO] CaBlox Core Iniciado...<br>[SCAN] Analisando Headers da sessão...<br>[LOCK] Dados salvos na pasta Lock do sistema.<br>[AWAIT] Aguardando resolução do CAPTCHA...`;
+            document.getElementById('cablox-log-box').innerHTML = `[INFO] CaBlox Engine V1.08 Ativo...<br>[SCAN] Varredura Concluída.<br>[LOCK] Dados arquivados na pasta Lock.<br>[AWAIT] Aguardando CAPTCHA...`;
         }
 
         function verificarCablox() {
@@ -211,59 +184,43 @@
             const logBox = document.getElementById('cablox-log-box');
 
             if (input === captchaGerado) {
-                logBox.innerHTML += `<br><span style="color:#00FF00">[SUCCESS] CAPTCHA Correto. Acesso Liberado.</span>`;
-                
+                logBox.innerHTML += `<br><span style="color:#00FF00">[SUCCESS] Token Válido.</span>`;
                 let logAtual = JSON.parse(localStorage.getItem('Lock_cablox_scan'));
                 logAtual.captcha_status = "Approved";
                 localStorage.setItem('Lock_cablox_scan', JSON.stringify(logAtual));
-
                 sessionStorage.setItem('cablox_verified', 'true');
-
                 setTimeout(() => {
                     document.getElementById('cablox-screen').style.display = "none";
                     inicializarSite();
                 }, 1000);
             } else {
-                logBox.innerHTML += `<br><span style="color:#FF0000">[ALERT] Falha no CAPTCHA! Gerando novo código...</span>`;
-                
+                logBox.innerHTML += `<br><span style="color:#FF0000">[ALERT] Código Inválido! Reiniciando...</span>`;
                 let logAtual = JSON.parse(localStorage.getItem('Lock_cablox_scan'));
                 logAtual.captcha_status = "Failed Attempt";
-                logAtual.is_suspicious = "Sim (Falha de Validação)";
+                logAtual.is_suspicious = "Sim (Erro Crítico de CAPTCHA)";
                 localStorage.setItem('Lock_cablox_scan', JSON.stringify(logAtual));
-
                 setTimeout(() => rodarCaBlox(), 1200);
             }
         }
 
-        // --- SISTEMA ESTRUTURAL ROBLOX 2006 ---
         function inicializarSite() {
-            // Gera ou mantém um ID de visitante único para quem entrou (1 a 10.000)
-            let visitorId = localStorage.getItem('visitor_id');
-            if (!visitorId) {
-                visitorId = Math.floor(Math.random() * 10000) + 1;
-                localStorage.setItem('visitor_id', visitorId);
-            }
+            let visitorId = localStorage.getItem('visitor_id') || Math.floor(Math.random() * 10000) + 1;
+            localStorage.setItem('visitor_id', visitorId);
 
             const estaLogado = localStorage.getItem('is_logged_in') === 'true';
             const dadosUsuario = localStorage.getItem('roblox_user');
-            
             const areaSidebar = document.getElementById('main-sidebar');
             const linksHeader = document.getElementById('header-auth-links');
             
             if (estaLogado && dadosUsuario) {
                 const conta = JSON.parse(dadosUsuario);
-                
-                // Exibe nome e ID de conta (1 a 6.000) caso esteja autenticado
                 linksHeader.innerHTML = `Logged in as: <b>${conta.username}</b> | <a href="#" onclick="efetuarLogout()">Logout</a> | <a href="#">Help</a>`;
-                
                 areaSidebar.innerHTML = `
                     <b>My ROBLOX</b>
                     <p style="margin:5px 0; color:#002E62; font-weight:bold;">Hello, ${conta.username}!</p>
                     <span style="font-size:10px; color:#666; display:block; margin-bottom:5px;">Account ID: #${conta.id}</span>
                     <hr>
-                    <a href="character.html">Character</a>
-                    <a href="forum.html">Forum</a>
-                    <a href="#" onclick="efetuarLogout()">Logout</a>
+                    <a href="character.html">Character</a><a href="forum.html">Forum</a><a href="#" onclick="efetuarLogout()">Logout</a>
                     <hr>
                     <p style="margin:0;">Users Online: <span id="online-counter" style="font-weight: bold;">--</span></p>
                 `;
@@ -271,15 +228,12 @@
                 linksHeader.innerHTML = `<a href="login.html">Login</a> | <a href="login.html">Register</a> | <a href="#">Help</a>`;
             }
 
-            // Contador de tráfego dinâmico orgânico baseado na hora
             function gerenciarContadorOnline() {
                 const horaAtual = new Date().getHours();
                 let baseDeUsuarios = (horaAtual >= 0 && horaAtual < 6) ? 45 : (horaAtual >= 18 && horaAtual < 23) ? 135 : 80;
                 const variacao = Math.floor(Math.random() * 21) - 10; 
-                const elementoContador = document.getElementById('online-counter');
-                if (elementoContador) elementoContador.innerText = baseDeUsuarios + variacao;
+                if (document.getElementById('online-counter')) document.getElementById('online-counter').innerText = baseDeUsuarios + variacao;
             }
-
             gerenciarContadorOnline();
             setInterval(gerenciarContadorOnline, 7000);
         }
@@ -289,7 +243,6 @@
             window.location.reload();
         }
 
-        // Dispara o fluxo de segurança do CaBlox ao iniciar a página
         window.onload = rodarCaBlox;
     </script>
 </body>
