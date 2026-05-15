@@ -6,37 +6,75 @@
     <style>
         body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
         .top-header { background-color: #000; color: #FFF; padding: 4px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+        .top-header a { color: #FFF; text-decoration: none; }
         .main-banner { background-color: #000080; padding: 10px; border-bottom: 3px solid #E1E1E1; }
         .nav-bar { background-color: #ECECEC; border-top: 1px solid #FFF; border-bottom: 1px solid #A0A0A0; padding: 6px 15px; display: flex; gap: 20px; font-weight: bold; font-size: 13px; }
         .nav-bar a { color: #002E62; text-decoration: none; }
+        .nav-bar a:hover { text-decoration: underline; }
+        
         .main-layout { display: flex; padding: 15px; gap: 15px; background-color: #FFF; margin: 10px; border: 1px solid #A0A0A0; min-height: 500px; }
         .content { flex: 1; }
-        .content h2 { font-size: 18px; color: #002E62; margin-top: 0; border-bottom: 1px solid #A0A0A0; padding-bottom: 5px; }
-        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .game-card { background: white; border: 1px solid #A0A0A0; padding: 8px; text-align: center; font-size: 12px; }
-        .game-card b { color: #002E62; display: block; margin-bottom: 5px; }
-        .game-card img { width: 100%; max-width: 180px; height: auto; border: 1px solid #A0A0A0; }
+        .content h2 { font-size: 18px; color: #002E62; margin-top: 0; border-bottom: 1px solid #A0A0A0; padding-bottom: 5px; margin-bottom: 15px; }
+        
+        /* Grid de 3 colunas para acomodar todas as mídias da lista */
+        .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .game-card { background: white; border: 1px solid #A0A0A0; padding: 8px; text-align: center; font-size: 11px; }
+        .game-card b { color: #002E62; display: block; margin-bottom: 4px; font-size: 12px; }
+        .game-card img { width: 100%; max-width: 160px; height: 110px; object-fit: cover; border: 1px solid #A0A0A0; margin-bottom: 5px; }
+        
+        .play-btn { display: block; margin: 3px auto 0 auto; background: url('PlayButton_Green.png') no-repeat center; background-size: contain; width: 55px; height: 55px; border: none; cursor: pointer; color: transparent; overflow: hidden; }
     </style>
 </head>
 <body>
-    <div class="top-header"><span></span><span><a href="index.html" style="color:#FFF;text-decoration:none;">Back to Home</a></span></div>
+    <div class="top-header"><span></span><span><a href="index.html">Home</a></span></div>
     <div class="main-banner"><img src="logo.png" height="40" alt="Roblox"></div>
     <div class="nav-bar"><a href="index.html">Home</a><a href="mypage.html">My Page</a><a href="maintenance.html">Games</a><a href="install.html">Install</a></div>
+    
     <div class="main-layout">
         <div class="content">
-            <h2>All ROBLOX Games</h2>
+            <h2>All ROBLOX Places (2006)</h2>
             <div class="game-grid">
+                <!-- MAPA 1 -->
                 <div class="game-card">
-                    <img src="SantasWinterStrongholdSmall1.png" alt="Santa's Winter Stronghold">
-                    <b>Santa's Winter Stronghold</b>
+                    <img src="ChaosCanyonSmall2.png" alt="Chaos Canyon">
+                    <b>Chaos Canyon</b>
+                    <button class="play-btn" onclick="playGame('Chaos Canyon')">Play</button>
                 </div>
+                <!-- MAPA 2 -->
                 <div class="game-card">
-                    <img src="screen2.png" alt="Classic Baseplate">
+                    <img src="screen1.png" alt="Building Room">
+                    <b>Building Room</b>
+                    <button class="play-btn" onclick="playGame('Building Room')">Play</button>
+                </div>
+                <!-- MAPA 3 -->
+                <div class="game-card">
+                    <img src="SantasWinterStrongholdSmall1.png" alt="Santa's Stronghold">
+                    <b>Santa's Winter</b>
+                    <button class="play-btn" onclick="playGame('Santa\'s Winter Stronghold')">Play</button>
+                </div>
+                <!-- MAPA 4 -->
+                <div class="game-card">
+                    <img src="screen2.png" alt="Classic Crossroads">
+                    <b>Crossroads</b>
+                    <button class="play-btn" onclick="playGame('Classic Crossroads')">Play</button>
+                </div>
+                <!-- MAPA 5 -->
+                <div class="game-card">
+                    <img src="screen3.png" alt="Classic Baseplate">
                     <b>Classic Baseplate</b>
+                    <button class="play-btn" onclick="playGame('Classic Baseplate')">Play</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function playGame(nomeDoJogo) {
+            var audio = new Audio('Oof.mp3');
+            audio.play().catch(function(e){});
+            alert('Conectando ao Client de 2006... Aguarde.');
+            window.location.href = "play.html?game=" + encodeURIComponent(nomeDoJogo);
+        }
+    </script>
 </body>
 </html>
-
