@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <title>ROBLOX.com - Online Building Toy</title>
     
+    <!-- Configuração do Ícone na Guia do Navegador (Substitui o Globo) -->
+    <link rel="icon" type="image/png" href="icon.png">
+    
+    <!-- Configuração para o App funcionar no Celular e Computador (PWA) -->
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22ROBLOX%202006%22,%22short_name%22:%22ROBLOX%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23E1E1E1%22,%22theme_color%22:%22%23000000%22,%22icons%22:[{%22src%22:%22icon.png%22,%22sizes%22:%22512x512%22,%22type%22:%22image/png%22}]}">
+    
     <style>
         body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 0; padding: 0; }
         .top-header { background-color: #000000; color: #FFF; padding: 4px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
@@ -25,7 +32,7 @@
         .game-card { background: white; border: 1px solid #A0A0A0; padding: 8px; text-align: center; font-size: 12px; }
         .game-card b { color: #002E62; display: block; margin-bottom: 5px; }
         .game-card img { width: 100%; max-width: 180px; height: auto; border: 1px solid #A0A0A0; margin-bottom: 5px; display: inline-block; }
-        .play-btn { display: block; margin: 5px auto 0 auto; background: url('PlayButton_Green.png') no-repeat center; background-size: contain; width: 64px; height: 64px; border: none; cursor: pointer; color: transparent; overflow: hidden; }
+        .play-btn { display: block; margin: 5px auto 0 auto; background-color: #008000; color: white; border: 1px solid #000; padding: 5px; cursor: pointer; }
         .footer { text-align: center; font-size: 10px; color: #555; padding: 20px 0; border-top: 1px solid #A0A0A0; margin: 10px; }
         .footer a { color: #002E62; text-decoration: none; }
         .footer a:hover { text-decoration: underline; }
@@ -44,26 +51,19 @@
 </head>
 <body>
 
-    <!-- Pop-up Unificado das Duas IAs de Segurança -->
     <div id="cablox-screen" class="cablox-overlay">
         <div class="cablox-modal">
             <div class="cablox-header">🛡️ ROBLOX DOUBLE VERIFICATION MATRIX</div>
-            
-            <!-- Painel 1: CaBlox AI -->
             <div class="ia-box">
                 <div class="ia-title">🤖 [1] CaBlox AI Core v1.08</div>
                 <div id="cablox-scan-details">Scanning browser software...</div>
             </div>
-
-            <!-- Painel 2: BuilderFound AI -->
             <div class="ia-box">
                 <div class="ia-title">🧱 [2] BuilderFound Behavior Scan</div>
-                <div id="builderfound-scan-details">Analyzing physical device hardware...</div>
+                <div id="builderfound-scan-details">Analyzing hardware...</div>
             </div>
-            
             <div class="cablox-captcha-box" id="captcha-display">----</div>
             <input type="text" id="captcha-input" class="cablox-input" placeholder="Type Verification Code" autocomplete="off">
-            
             <button class="cablox-btn" onclick="verificarCablox()">EXECUTE SECURITY APPROVAL</button>
             <div class="cablox-logs" id="cablox-log-box"></div>
         </div>
@@ -72,19 +72,19 @@
     <div class="top-header">
         <span></span>
         <span id="header-auth-links">
-            <a href="login.html">Login</a> | <a href="login.html">Register</a> | <a href="#">Help</a>
+            <a href="#">Login</a> | <a href="#">Register</a> | <a href="#">Help</a>
         </span>
     </div>
 
-    <div class="main-banner"><img src="logo.png" height="40" alt="Roblox"></div>
+    <div class="main-banner"><h1 style="color:white; margin-left:20px;">ROBLOX</h1></div>
 
     <div class="nav-bar">
-        <a href="index.html">Home</a><a href="mypage.html">My Page</a><a href="maintenance.html">Games</a><a href="install.html">Install</a>
+        <a href="#">Home</a><a href="#">My Page</a><a href="#">Games</a><a href="#">Install</a>
     </div>
 
     <div class="main-layout">
         <div class="sidebar" id="main-sidebar">
-            <b>My ROBLOX</b><a href="login.html">Login</a><a href="login.html">Register</a><a href="character.html">Character</a><a href="forum.html">Forum</a>
+            <b>My ROBLOX</b><a href="#">Login</a><a href="#">Register</a><a href="#">Character</a><a href="#">Forum</a>
             <hr>
             <p style="margin:0;">Users Online: <span id="online-counter" style="font-weight: bold;">--</span></p>
         </div>
@@ -93,171 +93,113 @@
             <h2>Featured Games</h2>
             <div class="game-grid">
                 <div class="game-card">
-                    <img src="ChaosCanyonSmall2.png" alt="Chaos Canyon"><b>Chaos Canyon</b>
+                    <div style="width:100%; height:100px; background:#ddd; border:1px solid #aaa;"></div>
+                    <b>Chaos Canyon</b>
                     <button class="play-btn" onclick="playOof('Chaos Canyon')">Play</button>
                 </div>
                 <div class="game-card">
-                    <img src="screen1.png" alt="Building Room"><b>Building Room</b>
+                    <div style="width:100%; height:100px; background:#ddd; border:1px solid #aaa;"></div>
+                    <b>Building Room</b>
                     <button class="play-btn" onclick="playOof('Building Room')">Play</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="footer">ROBLOX, "Online Building Toy", characters, logos and trading dress are trademarks of ROBLOX Corporation.</div>
+    <div class="footer">ROBLOX, "Online Building Toy", trademarks of ROBLOX Corporation.</div>
 
-    <script src="wombat.js"></script>
     <script>
         let captchaGerado = "";
         let inputTouchDetectado = "Mouse Pointer"; 
 
-        // Monitora fisicamente se o usuário encostou o dedo na tela para calibrar o BuilderFound
+        // Ativa o suporte de aplicativo em segundo plano
+        if ('serviceWorker' in navigator) {
+            const swCode = "self.addEventListener('fetch', function(e){});";
+            const blob = new Blob([swCode], {type: 'application/javascript'});
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(e => {});
+        }
+
+        // Função de Storage Secura (Evita o erro da imagem)
+        const safeStorage = {
+            get: (type, key) => {
+                try { return window[type].getItem(key); } catch (e) { return null; }
+            },
+            set: (type, key, val) => {
+                try { window[type].setItem(key, val); } catch (e) { }
+            }
+        };
+
         window.addEventListener('touchstart', function dectetarDedo() {
             inputTouchDetectado = "Finger Touchscreen";
             window.removeEventListener('touchstart', dectetarDedo);
         });
 
         function playOof(nomeDoJogo) {
-            var audio = new Audio('Oof.mp3');
-            audio.play().catch(function(e) {});
             alert('Conectando ao Client de 2006... Aguarde.');
-            window.location.href = "play.html?game=" + encodeURIComponent(nomeDoJogo);
         }
 
         function rodarVerificacoesDuplas() {
             const screen = document.getElementById('cablox-screen');
-            if (sessionStorage.getItem('cablox_verified') === 'true') {
-                screen.style.display = "none";
+            
+            // Verifica se já passou pela segurança nesta sessão
+            if (safeStorage.get('sessionStorage', 'cablox_verified') === 'true') {
+                if(screen) screen.style.display = "none";
                 inicializarSite();
                 return;
             }
-            screen.style.display = "flex";
+            if(screen) screen.style.display = "flex";
 
             const ua = navigator.userAgent;
 
-            // --- 1. SCANNER CABLOX AI v1.08 (Navegador e Dispositivo) ---
-            let dispositivo = "PC";
-            if (/Mobi|Android|iPhone/i.test(ua)) dispositivo = "Celular";
-            else if (/Tablet|iPad/i.test(ua)) dispositivo = "Tablet";
-            else if (/Macintosh|Windows/i.test(ua) && window.screen.width < 1100) dispositivo = "Notebook";
+            // Painel 1: CaBlox AI
+            let dispositivo = /Mobi|Android|iPhone/i.test(ua) ? "Celular" : "PC";
+            const scanDetails = document.getElementById('cablox-scan-details');
+            if(scanDetails) scanDetails.innerText = `Browser Scan: OK | Environment: ${dispositivo}`;
 
-            let navegador = "Internet Explorer";
-            if (ua.includes("Firefox") && !ua.includes("Seamonkey")) navegador = "Firefox";
-            else if (ua.includes("MiBrowser")) navegador = "Mi Browser";
-            else if (ua.includes("Opr/") || ua.includes("OPR") || ua.includes("Opera")) navegador = "Opera";
-            else if (ua.includes("Edg/")) navegador = "Edge";
-            else if (ua.includes("Chrome") && !ua.includes("Chromium")) navegador = "Chrome";
-            else if (ua.includes("Safari") && !ua.includes("Chrome") && !ua.includes("Edg")) navegador = "Safari";
+            // Painel 2: BuilderFound
+            const builderDetails = document.getElementById('builderfound-scan-details');
+            if(builderDetails) builderDetails.innerHTML = `Input: ${inputTouchDetectado}<br>Status: Monitoring...`;
 
-            document.getElementById('cablox-scan-details').innerHTML = `Browser: ${navegador} | Environment: ${dispositivo}`;
+            // Salva log de forma segura
+            safeStorage.set('localStorage', 'Last_Scan', new Date().toLocaleString());
 
-            // --- 2. SCANNER BUILDERFOUND AI (Análise Física Comportamental) ---
-            // A. Detecção de Sistema Operacional Exato
-            let so = "Unknown OS";
-            if (ua.includes("Windows")) so = "Windows";
-            else if (ua.includes("Android")) so = "Android";
-            else if (/iPhone|iPad|iPod/.test(ua)) so = "iOS";
-            else if (ua.includes("Macintosh")) so = "macOS";
-            else if (ua.includes("Linux")) so = "Linux";
-
-            // B. Detecção de Layout e Tamanhos de Botão recomendados
-            let layoutLayout = (dispositivo === "Celular" || dispositivo === "Tablet") ? "Mobile UI Layout (Big Buttons)" : "Desktop UI Layout (Compact)";
-            
-            // C. Dedução de Teclado com base no SO
-            let tecladoProvavel = "Standard PC Keyboard";
-            if (so === "Android") tecladoProvavel = "Google Gboard Keyboard";
-            else if (so === "iOS") tecladoProvavel = "Apple Virtual Keyboard";
-
-            document.getElementById('builderfound-scan-details').innerHTML = `
-                OS: ${so}<br>
-                Layout Mode: ${layoutLayout}<br>
-                Pointer Input: ${inputTouchDetectado}<br>
-                Estimated Input: ${tecladoProvavel}
-            `;
-
-            // Lógica Heurística Atualizada (Opera é suspeito!)
-            let suspeito = "Não";
-            if (navegador === "Opera") suspeito = "Sim (ALERTA: Usuário de Opera!)";
-            else if (dispositivo === "Celular") suspeito = "Sim (Acesso Mobile Remoto)";
-
-            // Guardando tudo na caixinha (localStorage) dentro da chave Lock
-            const fullReport = {
-                timestamp: new Date().toLocaleString(),
-                cablox: { browser: navegador, type: dispositivo },
-                builderfound: { os: so, layout: layoutLayout, input: inputTouchDetectado, keyboard: tecladoProvavel },
-                is_suspicious: suspeito
-            };
-            localStorage.setItem('Lock_cablox_scan', JSON.stringify(fullReport));
-
-            // CAPTCHA
-            const caracteres = "ABCDEFGHJKLMNOPQRSTUVWXYZ23456789";
+            // Gerar CAPTCHA
+            const caracteres = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
             captchaGerado = "";
             for (let i = 0; i < 4; i++) {
                 captchaGerado += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
             }
-            document.getElementById('captcha-display').innerText = captchaGerado;
+            const capDisp = document.getElementById('captcha-display');
+            if(capDisp) capDisp.innerText = captchaGerado;
 
-            document.getElementById('cablox-log-box').innerHTML = `[INFO] CaBlox Engine V1.08 Online.<br>[INFO] BuilderFound Hardware Matcher Online.<br>[LOCK] Full tracking frame dispatched to localStorage://Lock.`;
+            const logBox = document.getElementById('cablox-log-box');
+            if(logBox) logBox.innerHTML = `[INFO] CaBlox Engine V1.08 Online.<br>[INFO] BuilderFound Matcher Online.`;
         }
 
         function verificarCablox() {
-            const input = document.getElementById('captcha-input').value.trim().toUpperCase();
+            const val = document.getElementById('captcha-input').value.trim().toUpperCase();
             const logBox = document.getElementById('cablox-log-box');
 
-            if (input === captchaGerado) {
-                logBox.innerHTML += `<br><span style="color:#00FF00">[OK] BuilderFound e CaBlox Aprovaram o Dispositivo.</span>`;
-                sessionStorage.setItem('cablox_verified', 'true');
+            if (val === captchaGerado) {
+                if(logBox) logBox.innerHTML += `<br><span style="color:#00FF00">[OK] Acesso Autorizado.</span>`;
+                safeStorage.set('sessionStorage', 'cablox_verified', 'true');
                 setTimeout(() => {
                     document.getElementById('cablox-screen').style.display = "none";
                     inicializarSite();
-                }, 1000);
+                }, 800);
             } else {
-                logBox.innerHTML += `<br><span style="color:#FF0000">[FAIL] Quebra de Matriz de Segurança. Recalibrando sensores...</span>`;
-                setTimeout(() => rodarVerificacoesDuplas(), 1200);
+                if(logBox) logBox.innerHTML += `<br><span style="color:#FF0000">[FAIL] Código Incorreto.</span>`;
+                setTimeout(() => rodarVerificacoesDuplas(), 1000);
             }
         }
 
         function inicializarSite() {
-            let visitorId = localStorage.getItem('visitor_id') || Math.floor(Math.random() * 10000) + 1;
-            localStorage.setItem('visitor_id', visitorId);
-
-            const estaLogado = localStorage.getItem('is_logged_in') === 'true';
-            const dadosUsuario = localStorage.getItem('roblox_user');
-            const areaSidebar = document.getElementById('main-sidebar');
-            const linksHeader = document.getElementById('header-auth-links');
-            
-            if (estaLogado && dadosUsuario) {
-                const conta = JSON.parse(dadosUsuario);
-                linksHeader.innerHTML = `Logged in as: <b>${conta.username}</b> | <a href="#" onclick="efetuarLogout()">Logout</a> | <a href="#">Help</a>`;
-                areaSidebar.innerHTML = `
-                    <b>My ROBLOX</b>
-                    <p style="margin:5px 0; color:#002E62; font-weight:bold;">Hello, ${conta.username}!</p>
-                    <span style="font-size:10px; color:#666; display:block; margin-bottom:5px;">Account ID: #${conta.id}</span>
-                    <hr>
-                    <a href="character.html">Character</a><a href="forum.html">Forum</a><a href="#" onclick="efetuarLogout()">Logout</a>
-                    <hr>
-                    <p style="margin:0;">Users Online: <span id="online-counter" style="font-weight: bold;">--</span></p>
-                `;
-            } else {
-                linksHeader.innerHTML = `<a href="login.html">Login</a> | <a href="login.html">Register</a> | <a href="#">Help</a>`;
-            }
-
-            function gerenciarContadorOnline() {
-                const horaAtual = new Date().getHours();
-                let baseDeUsuarios = (horaAtual >= 0 && horaAtual < 6) ? 45 : (horaAtual >= 18 && horaAtual < 23) ? 135 : 80;
-                const variacao = Math.floor(Math.random() * 21) - 10; 
-                if (document.getElementById('online-counter')) document.getElementById('online-counter').innerText = baseDeUsuarios + variacao;
-            }
-            gerenciarContadorOnline();
-            setInterval(gerenciarContadorOnline, 7000);
-        }
-
-        function efeteuarLogout() {
-            localStorage.removeItem('is_logged_in');
-            window.location.reload();
+            const counter = document.getElementById('online-counter');
+            if(counter) counter.innerText = Math.floor(Math.random() * 50) + 100;
         }
 
         window.onload = rodarVerificacoesDuplas;
     </script>
 </body>
-</html>
+    </html>
+                                 
