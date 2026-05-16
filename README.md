@@ -2,6 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="icon.png">
     <title>ROBLOX.com - Online Building Toy</title>
     
     <style>
@@ -44,18 +45,15 @@
 </head>
 <body>
 
-    <!-- Pop-up Unificado das Duas IAs de Segurança -->
     <div id="cablox-screen" class="cablox-overlay">
         <div class="cablox-modal">
             <div class="cablox-header">🛡️ ROBLOX DOUBLE VERIFICATION MATRIX</div>
             
-            <!-- Painel 1: CaBlox AI -->
             <div class="ia-box">
                 <div class="ia-title">🤖 [1] CaBlox AI Core v1.08</div>
                 <div id="cablox-scan-details">Scanning browser software...</div>
             </div>
 
-            <!-- Painel 2: BuilderFound AI -->
             <div class="ia-box">
                 <div class="ia-title">🧱 [2] BuilderFound Behavior Scan</div>
                 <div id="builderfound-scan-details">Analyzing physical device hardware...</div>
@@ -252,7 +250,7 @@
             setInterval(gerenciarContadorOnline, 7000);
         }
 
-        function efeteuarLogout() {
+        function efetuarLogout() {
             localStorage.removeItem('is_logged_in');
             window.location.reload();
         }
@@ -260,94 +258,4 @@
         window.onload = rodarVerificacoesDuplas;
     </script>
 </body>
-</html>        </div>
-
-        <div class="content">
-            <h2 style="margin-top:0;">Featured Games</h2>
-            <div class="game-grid">
-                <div class="game-card">
-                    <img src="ChaosCanyonSmall2.png" alt="Chaos Canyon">
-                    <b>Chaos Canyon</b><br>
-                    <button class="play-btn" onclick="playOof()">Play</button>
-                </div>
-                <div class="game-card">
-                    <img src="screen1.png" alt="Building Room">
-                    <b>Building Room</b><br>
-                    <button class="play-btn" onclick="playOof()">Play</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="wombat.js"></script>
-    <script>
-        function playOof() {
-            var audio = new Audio('Oof.mp3');
-            audio.play();
-            alert('Conectando ao Client de 2006... Aguarde.');
-        }
-
-        // Função do contador dinâmico em tempo real
-        function updateOnlineCounter() {
-            const date = new Date();
-            const hour = date.getHours();
-            let baseUsers;
-
-            // Define tráfego dinâmico dependendo da hora do dia
-            if (hour >= 0 && hour < 6) {
-                baseUsers = 35; // Madrugada menos acessos
-            } else if (hour >= 18 && hour < 23) {
-                baseUsers = 110; // Pico a noite
-            } else {
-                baseUsers = 65; // Dia comercial
-            }
-
-            // Gera uma variação aleatória de +/- 12 usuários
-            const fluctuation = Math.floor(Math.random() * 25) - 12;
-            const finalCount = baseUsers + fluctuation;
-
-            // Aplica o valor na tela
-            document.getElementById('online-counter').innerText = finalCount;
-        }
-
-        // Roda ao carregar a página
-        updateOnlineCounter();
-
-        // Altera o número organicamente a cada 7 segundos sem recarregar
-        setInterval(updateOnlineCounter, 7000);
-    </script>
-</body>
 </html>
-</div>
-
-        <div class="content">
-            <h2 style="margin-top:0;">Featured Games</h2>
-            <div class="game-grid">
-                <!-- Mapa 1: Chaos Canyon -->
-                <div class="game-card">
-                    <img src="images/ChaosCanyonLarge.png" alt="Chaos Canyon">
-                    <b>Chaos Canyon</b><br>
-                    <button class="play-btn" onclick="playOof()">Play</button>
-                </div>
-                <!-- Mapa 2: Building Room -->
-                <div class="game-card">
-                    <img src="images/BuildingRoomLarge.png" alt="Building Room">
-                    <b>Building Room</b><br>
-                    <button class="play-btn" onclick="playOof()">Play</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts do seu projeto -->
-    <script src="js/wombat.js"></script>
-    <script>
-        function playOof() {
-            var audio = new Audio('Oof.mp3');
-            audio.play();
-            alert('Conectando ao Client de 2006... Aguarde.');
-        }
-    </script>
-</body>
-</html>
-
