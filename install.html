@@ -30,9 +30,13 @@
 </head>
 <body>
 
-    <div class="top-header"><a href="#">Home</a></div>
+    <div class="top-header"><a href="index.html">Home</a></div>
     <div class="main-banner"><h1 style="color:white; margin:0; font-style:italic;">ROBLOX</h1></div>
-    <div class="nav-bar"><a href="#">Home</a><a href="#">Games</a><a href="#">Install</a></div>
+    <div class="nav-bar">
+        <a href="index.html">Home</a>
+        <a href="maintenance.html">Games</a>
+        <a href="install.html">Install</a>
+    </div>
 
     <div class="main-layout">
         <div class="download-box">
@@ -53,19 +57,21 @@
     </div>
 
     <script>
+        // Nome padrão para PC
         let nomeDoSetupParaBaixar = "RobloxPlayer2006PC.exe";
         let isMobile = false;
 
-        // Função para atualizar a interface baseada no estado
         function atualizarUI() {
             const instalado = localStorage.getItem('roblox_installed') === 'true';
             const btn = document.getElementById('action-btn');
             const status = document.getElementById('app-status');
 
-            // Detecta celular ou tablet
+            // Detecção de Mobile (Android, iPhone, etc)
             if (/Mobi|Android|iPhone|iPad|Tablet/i.test(navigator.userAgent)) {
                 isMobile = true;
-                nomeDoSetupParaBaixar = "_Roblox_2006_19817695.apk";
+                // Usa o arquivo APK que você enviou
+                nomeDoSetupParaBaixar = "app4040958-mqdtiz.apk";
+                document.getElementById('install-desc').innerText = "Versão Mobile detectada. Baixe o APK para jogar no seu dispositivo.";
             }
 
             if (instalado) {
@@ -84,21 +90,34 @@
             const log = document.getElementById('setup-logs');
             const acao = document.getElementById('installer-current-action');
 
+            log.innerHTML = "> Iniciando transferência...";
+
             const intervalo = setInterval(() => {
                 progresso += 2;
                 barra.style.width = progresso + "%";
 
-                if(progresso == 20) { acao.innerText = "Extraindo arquivos..."; log.innerHTML += "<br>> Unpacking assets..."; }
-                if(progresso == 60) { acao.innerText = "Configurando engine..."; log.innerHTML += "<br>> Setting up GDI+..."; }
+                if(progresso == 20) { 
+                    acao.innerText = "Extraindo arquivos..."; 
+                    log.innerHTML += "<br>> Unpacking assets..."; 
+                }
+                if(progresso == 60) { 
+                    acao.innerText = "Configurando engine..."; 
+                    log.innerHTML += "<br>> Setting up GDI+ components..."; 
+                }
+                if(progresso == 85) { 
+                    acao.innerText = "Finalizando instalação..."; 
+                    log.innerHTML += "<br>> Cleaning temporary files..."; 
+                }
                 
                 if (progresso >= 100) {
                     clearInterval(intervalo);
                     localStorage.setItem('roblox_installed', 'true');
+                    
                     setTimeout(() => {
                         document.getElementById('installer-screen').style.display = "none";
-                        alert("Instalação simulada concluída com sucesso!");
+                        alert("Instalação concluída! O download do arquivo começará agora.");
                         
-                        // Dispara o download invisível que puxa o arquivo
+                        // Inicia o download real do arquivo
                         dispararDownloadReal();
                         
                         atualizarUI();
@@ -107,25 +126,20 @@
             }, 50);
         }
 
-        // Função corrigida com link direto de arquivo bruto (evita redirecionamento)
         function dispararDownloadReal() {
             const link = document.createElement('a');
-            
-            if (isMobile) {
-                // Link bruto do servidor do GitHub para iniciar o download direto na barra do celular
-                link.href = "https://githubusercontent.com";
-                link.download = "_Roblox_2006_19817695.apk";
-            } else {
-                link.href = nomeDoSetupParaBaixar;
-                link.download = nomeDoSetupParaBaixar;
-            }
+            // O caminho assume que o arquivo está na mesma pasta do HTML no GitHub
+            link.href = nomeDoSetupParaBaixar;
+            link.download = nomeDoSetupParaBaixar;
             
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }
 
+        // Executa a verificação ao carregar a página
         window.onload = atualizarUI;
     </script>
 </body>
-</html>
+    </html>
+    
