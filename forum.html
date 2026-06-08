@@ -8,18 +8,157 @@
         .forum-table { width: 100%; border-collapse: collapse; background: white; border: 1px solid #A0A0A0; }
         .forum-table th { background: #000080; color: white; padding: 8px; text-align: left; font-size: 12px; }
         .forum-table td { padding: 10px; border-bottom: 1px solid #E1E1E1; font-size: 12px; }
-        .title { color: #002E62; font-weight: bold; text-decoration: none; }
+        .title { color: #002E62; font-weight: bold; text-decoration: none; display: block; }
+        .title:hover { text-decoration: underline; }
+        .post-text { color: #444; font-size: 11px; margin: 4px 0 0 0; }
+        
+        /* Estilo da barra de ativação da IA */
+        .api-box { background: #FFFFAA; border: 1px dashed #FF0000; padding: 8px; margin-bottom: 15px; font-size: 11px; }
+        .api-input { padding: 4px; font-size: 11px; width: 250px; }
+        .api-btn { padding: 4px 10px; font-size: 11px; background: #008000; color: white; border: 1px solid #004000; cursor: pointer; }
     </style>
 </head>
 <body>
     <h2>ROBLOX Discussion Forum</h2>
-    <table class="forum-table">
-        <tr><th>Topic</th><th>Author</th><th>Replies</th></tr>
-        <tr><td><a class="title" href="#">How do I script a door?</a></td><td>Builderman</td><td>14</td></tr>
-        <tr><td><a class="title" href="#">Check out my Chaos Canyon map!</a></td><td>Telamon</td><td>42</td></tr>
-        <tr><td><a class="title" href="#">ROBLOX is officially live!</a></td><td>JohnShedletsky</td><td>105</td></tr>
-    </table>
-    <br><a href="index.html" style="font-size: 12px; color: #002E62;">← Return to Main Site</a>
-</body>
-</html>
+    
+    <div class="api-box" id="setup-api-box">
+        🔑 <b>Ativar Usuários Fantasmas (SambaNova AI):</b> 
+        <input type="password" id="api-key-input" class="api-input" placeholder="Cole sua API Key da SambaNova aqui">
+        <button class="api-btn" onclick="salvarChaveAPI()">Ativar Sistema</button>
+        <span id="api-status" style="margin-left: 10px; color: red; font-weight: bold;">Status: Desativado</span>
+    </div>
 
+    <table class="forum-table" id="my-forum-table">
+        <tr id="forum-header">
+            <th>Topic</th>
+            <th>Author</th>
+            <th>Replies</th>
+        </tr>
+        
+        <tr>
+            <td>
+                <a class="title" href="#">How do I script a door?</a>
+                <p class="post-text">Alguém me ajuda a fazer um script de porta que abre quando encosta?</p>
+            </td>
+            <td style="color: #002E62; font-weight: bold;">Builderman</td>
+            <td>14</td>
+        </tr>
+        <tr>
+            <td>
+                <a class="title" href="#">Check out my Chaos Canyon map!</a>
+                <p class="post-text">Atualizei o mapa com novos spawnpoints e ferramentas de combate, entrem lá!</p>
+            </td>
+            <td style="color: #002E62; font-weight: bold;">Telamon</td>
+            <td>42</td>
+        </tr>
+        <tr>
+            <td>
+                <a class="title" href="#">ROBLOX is officially live!</a>
+                <p class="post-text">Welcome to the future of online building tools. Have fun!</p>
+            </td>
+            <td style="color: #FF0000; font-weight: bold;">JohnShedletsky</td>
+            <td>105</td>
+        </tr>
+    </table>
+    
+    <br>
+    <a href="index.html" style="font-size: 12px; color: #002E62; font-weight: bold;">← Return to Main Site</a>
+
+    <script>
+        const URL_SAMBANOVA = "https://api.sambanova.ai/v1/chat/completions";
+        let temporizadorIA = null;
+
+        // Função para carregar a chave salva no seu navegador
+        function verificarChaveExistente() {
+            const chaveSalva = localStorage.getItem('retro_sambanova_key');
+            if (chaveSalva) {
+                document.getElementById('api-status').innerText = "Status: Ligado (CaBlox AI Ativo)";
+                document.getElementById('api-status').style.color = "green";
+                document.getElementById('api-key-input').value = "••••••••••••••••••••••••";
+                
+                // Liga o gerador automático
+                iniciarGerador(chaveSalva);
+            }
+        }
+
+        function salvarChaveAPI() {
+            const input = document.getElementById('api-key-input').value.trim();
+            if (input === "" || input.includes("•••")) return alert("Por favor, digite uma chave válida.");
+            
+            localStorage.setItem('retro_sambanova_key', input);
+            alert("Sistema ativado! A IA começará a postar agora.");
+            window.location.reload();
+        }
+
+        function iniciarGerador(chave) {
+            // Roda uma vez de imediato
+            gerarPostComIA(chave);
+            // Configura para rodar a cada 45 segundos
+            if (temporizadorIA) clearInterval(temporizadorIA);
+            temporizadorIA = setInterval(() => gerarPostComIA(chave), 45000);
+        }
+
+        function gerarPostComIA(chaveAPI) {
+            console.log("[Retro2026] Solicitando novo post ao sistema central...");
+
+            const systemPrompt = `Você é o sistema do Retro2026 (um site simulador de Roblox de 2006).
+Sua função única é inventar uma postagem de fórum ultra realista daquela época.
+Regras rígidas:
+1. Escolha um nome de usuário fictício nostálgico e aleatório (Ex: BrickMaster99, NoobSlayer, xX_Robloxian_Xx, BloxBuilder, Guest77).
+2. Escolha um assunto comum de 2006 (Ex: lag da internet, o mapa Chaos Canyon, pedir ajuda para fazer botões com scripts, reclamar de bugs de física, comemorar que juntou Tickets).
+3. Escreva um título curto e uma mensagem rápida em português do Brasil. Use gírias de internet antiga (xD, lol, :P, vlw, pfv).
+
+OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação de texto ou blocos de código markdown (nunca use \`\`\`json). Siga exatamente essa estrutura:
+{"username": "Nome", "titulo": "Titulo do topico", "mensagem": "Texto do post"}`;
+
+            fetch(URL_SAMBANOVA, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${chaveAPI}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    model: "llama3-1-8b", 
+                    messages: [
+                        { role: "system", content: systemPrompt }
+                    ],
+                    temperature: 0.9
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                try {
+                    const textoResposta = data.choices[0].message.content.trim();
+                    const novoPost = JSON.parse(textoResposta);
+                    novoPost.replies = Math.floor(Math.random() * 15);
+                    adicionarPostNaTabela(novoPost);
+                } catch (erro) {
+                    console.error("[Erro] Resposta da IA inválida. Certifique-se de que sua chave está correta.");
+                }
+            })
+            .catch(err => console.error("[Erro API SambaNova]:", err));
+        }
+
+        function adicionarPostNaTabela(post) {
+            const tabela = document.getElementById("my-forum-table");
+            const linhaCabecalho = document.getElementById("forum-header");
+            if (!tabela || !linhaCabecalho) return;
+
+            const novaLinha = document.createElement("tr");
+            novaLinha.innerHTML = `
+                <td>
+                    <a class="title" href="#">${post.titulo}</a>
+                    <p class="post-text">${post.mensagem}</p>
+                </td>
+                <td style="color: #002E62; font-weight: bold;">${post.username}</td>
+                <td>${post.replies}</td>
+            `;
+            linhaCabecalho.parentNode.insertBefore(novaLinha, linhaCabecalho.nextSibling);
+        }
+
+        // Verifica se já tem chave salva ao carregar a página
+        window.onload = verificarChaveExistente;
+    </script>
+</body>
+    </html>
+    
