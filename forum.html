@@ -2,6 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROBLOX Forum</title>
     <style>
         body { background-color: #E1E1E1; font-family: Verdana, sans-serif; margin: 10px; }
@@ -55,12 +56,12 @@
 
     <script>
         // Configurações da API da SambaNova
-        // Como já colaste a tua chave, ela vai rodar direto por aqui de forma invisível
-        const SAMBANOVA_API_KEY = "e3d1a48d-eb2e-4ffd-b89e-58a8a8080e7b"; 
+        // Garanta que a sua chave real está entre as aspas abaixo
+        const SAMBANOVA_API_KEY = "SUA_CHAVE_AQUI"; 
         const URL_SAMBANOVA = "https://api.sambanova.ai/v1/chat/completions";
 
         function gerarPostComIA() {
-            console.log("[Retro2026] Solicitando novo post ao sistema central...");
+            console.log("[Retro2026] Solicitando novo post ao CaBlox AI...");
 
             const systemPrompt = `Você é o sistema do Retro2026 (um site simulador de Roblox de 2006).
 Sua função única é inventar uma postagem de fórum ultra realista daquela época.
@@ -89,18 +90,20 @@ OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação 
             .then(response => response.json())
             .then(data => {
                 try {
-                    const textoResposta = data.choices[0].message.content.trim();
-                    const novoPost = JSON.parse(textoResposta);
+                    let textoResposta = data.choices[0].message.content.trim();
                     
-                    // Gera um número de respostas aleatório para a tabela
+                    // Limpeza contra formatações markdown automáticas da IA
+                    textoResposta = textoResposta.replace(/```json/g, "").replace(/```/g, "").trim();
+                    
+                    const novoPost = JSON.parse(textoResposta);
                     novoPost.replies = Math.floor(Math.random() * 15);
 
                     adicionarPostNaTabela(novoPost);
                 } catch (erro) {
-                    console.error("[Erro] Resposta da IA inválida ou fora do formato JSON:", erro);
+                    console.error("[Erro] Resposta inválida da IA:", erro);
                 }
             })
-            .catch(err => console.error("[Erro API SambaNova]:", err));
+            .catch(err => console.error("[Erro de Rede API]:", err));
         }
 
         function adicionarPostNaTabela(post) {
@@ -108,7 +111,6 @@ OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação 
             const linhaCabecalho = document.getElementById("forum-header");
             if (!tabela || !linhaCabecalho) return;
 
-            // Cria a nova linha (tr) estruturada
             const novaLinha = document.createElement("tr");
             
             novaLinha.innerHTML = `
@@ -120,14 +122,14 @@ OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação 
                 <td>${post.replies}</td>
             `;
 
-            // Coloca o novo post no topo da tabela, logo abaixo do cabeçalho
+            // Insere no topo da tabela de tópicos
             linhaCabecalho.parentNode.insertBefore(novaLinha, linhaCabecalho.nextSibling);
         }
 
-        // Carrega o primeiro post assim que abres a página
+        // Carrega o primeiro post assim que a página abre no telemóvel/PC
         gerarPostComIA();
 
-        // Fica a rodar o loop em background a cada 45 segundos
+        // Loop contínuo a cada 45 segundos
         setInterval(gerarPostComIA, 45000);
     </script>
 </body>
