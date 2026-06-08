@@ -56,12 +56,18 @@
 
     <script>
         // Configurações da API da SambaNova
-        // Garanta que a sua chave real está entre as aspas abaixo
-        const SAMBANOVA_API_KEY = "e3d1a48d-eb2e-4ffd-b89e-58a8a8080e7b"; 
+        // Cole sua chave COMPLETA (começando com sbv_key_) dentro das aspas abaixo:
+        const SAMBANOVA_API_KEY = "SUA_CHAVE_AQUI"; 
         const URL_SAMBANOVA = "https://api.sambanova.ai/v1/chat/completions";
 
         function gerarPostComIA() {
             console.log("[Retro2026] Solicitando novo post ao CaBlox AI...");
+
+            // Se você esqueceu de trocar a chave, avisa no console do celular
+            if (SAMBANOVA_API_KEY === "e3d1a48d-eb2e-4ffd-b89e-58a8a8080e7b" || SAMBANOVA_API_KEY === "") {
+                console.error("[Erro] Você precisa colar sua chave da SambaNova na linha 54!");
+                return;
+            }
 
             const systemPrompt = `Você é o sistema do Retro2026 (um site simulador de Roblox de 2006).
 Sua função única é inventar uma postagem de fórum ultra realista daquela época.
@@ -70,13 +76,15 @@ Regras rígidas:
 2. Escolha um assunto comum de 2006 (Ex: lag da internet, o mapa Chaos Canyon, pedir ajuda para fazer botões com scripts, reclamar de bugs de física, comemorar que juntou Tickets).
 3. Escreva um título curto e uma mensagem rápida em português do Brasil. Use gírias de internet antiga (xD, lol, :P, vlw, pfv).
 
-OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação de texto ou blocos de código markdown (nunca use \`\`\`json). Siga exatamente essa estrutura:
-{"username": "Nome", "titulo": "Titulo do topico", "mensagem": "Texto do post"}`;
+OBRIGATÓRIO: Sua resposta deve ser exclusivamente um JSON puro e válido, sem formatação markdown, sem blocos de código com três crases, seguindo estritamente este modelo:
+{"username": "Nome", "titulo": "Titulo", "mensagem": "Texto"}`;
 
+            // FETCH CORRIGIDO: Agora com os parâmetros corretos para API externa da SambaNova
             fetch(URL_SAMBANOVA, {
                 method: "POST",
+                mode: "cors", // Permite a comunicação segura entre sites
                 headers: {
-                    "Authorization": `Bearer ${SAMBANOVA_API_KEY}`,
+                    "Authorization": "Bearer " + SAMBANOVA_API_KEY,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
@@ -84,15 +92,21 @@ OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação 
                     messages: [
                         { role: "system", content: systemPrompt }
                     ],
-                    temperature: 0.9
+                    temperature: 0.9,
+                    stream: false // Garante que a resposta venha de uma vez só
                 })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erro na API (Status: " + response.status + "). Verifique sua chave!");
+                }
+                return response.json();
+            })
             .then(data => {
                 try {
                     let textoResposta = data.choices[0].message.content.trim();
                     
-                    // Limpeza contra formatações markdown automáticas da IA
+                    // Limpeza extra caso o modelo ignore o comando e mande em formato markdown
                     textoResposta = textoResposta.replace(/```json/g, "").replace(/```/g, "").trim();
                     
                     const novoPost = JSON.parse(textoResposta);
@@ -100,10 +114,10 @@ OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação 
 
                     adicionarPostNaTabela(novoPost);
                 } catch (erro) {
-                    console.error("[Erro] Resposta inválida da IA:", erro);
+                    console.error("[Erro] A IA não respondeu em formato JSON limpo:", erro);
                 }
             })
-            .catch(err => console.error("[Erro de Rede API]:", err));
+            .catch(err => console.error("[Erro de Conexão SambaNova]:", err));
         }
 
         function adicionarPostNaTabela(post) {
@@ -122,15 +136,16 @@ OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação 
                 <td>${post.replies}</td>
             `;
 
-            // Insere no topo da tabela de tópicos
-            linhaCabecalho.parentNode.insertBefore(novaLinha, linhaCabecalho.nextSibling);
+            // Coloca o novo post bem no topo da tabela, logo abaixo dos títulos
+            linhaCabecalho.parentNode.insertBefore(novaLinha, sibling = linhaCabecalho.nextSibling);
         }
 
-        // Carrega o primeiro post assim que a página abre no telemóvel/PC
+        // Executa a primeira chamada assim que carregar o site
         gerarPostComIA();
 
-        // Loop contínuo a cada 45 segundos
+        // Mantém o loop atualizando a cada 45 segundos
         setInterval(gerarPostComIA, 45000);
     </script>
 </body>
-</html>
+    </html>
+    
