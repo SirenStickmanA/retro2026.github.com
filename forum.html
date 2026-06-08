@@ -11,22 +11,11 @@
         .title { color: #002E62; font-weight: bold; text-decoration: none; display: block; }
         .title:hover { text-decoration: underline; }
         .post-text { color: #444; font-size: 11px; margin: 4px 0 0 0; }
-        
-        /* Estilo da barra de ativação da IA */
-        .api-box { background: #FFFFAA; border: 1px dashed #FF0000; padding: 8px; margin-bottom: 15px; font-size: 11px; }
-        .api-input { padding: 4px; font-size: 11px; width: 250px; }
-        .api-btn { padding: 4px 10px; font-size: 11px; background: #008000; color: white; border: 1px solid #004000; cursor: pointer; }
     </style>
 </head>
 <body>
     <h2>ROBLOX Discussion Forum</h2>
-    
-    <div class="api-box" id="setup-api-box">
-        🔑 <b>Ativar Usuários Fantasmas (SambaNova AI):</b> 
-        <input type="password" id="api-key-input" class="api-input" placeholder="Cole sua API Key da SambaNova aqui">
-        <button class="api-btn" onclick="salvarChaveAPI()">Ativar Sistema</button>
-        <span id="api-status" style="margin-left: 10px; color: red; font-weight: bold;">Status: Desativado</span>
-    </div>
+    <p style="font-size: 11px; color: #555; margin-bottom: 10px;">Os usuários ativos postam automaticamente a cada 45 segundos via CaBlox AI.</p>
 
     <table class="forum-table" id="my-forum-table">
         <tr id="forum-header">
@@ -65,40 +54,12 @@
     <a href="index.html" style="font-size: 12px; color: #002E62; font-weight: bold;">← Return to Main Site</a>
 
     <script>
+        // Configurações da API da SambaNova
+        // Como já colaste a tua chave, ela vai rodar direto por aqui de forma invisível
+        const SAMBANOVA_API_KEY = "e3d1a48d-eb2e-4ffd-b89e-58a8a8080e7b"; 
         const URL_SAMBANOVA = "https://api.sambanova.ai/v1/chat/completions";
-        let temporizadorIA = null;
 
-        // Função para carregar a chave salva no seu navegador
-        function verificarChaveExistente() {
-            const chaveSalva = localStorage.getItem('retro_sambanova_key');
-            if (chaveSalva) {
-                document.getElementById('api-status').innerText = "Status: Ligado (CaBlox AI Ativo)";
-                document.getElementById('api-status').style.color = "green";
-                document.getElementById('api-key-input').value = "••••••••••••••••••••••••";
-                
-                // Liga o gerador automático
-                iniciarGerador(chaveSalva);
-            }
-        }
-
-        function salvarChaveAPI() {
-            const input = document.getElementById('api-key-input').value.trim();
-            if (input === "" || input.includes("•••")) return alert("Por favor, digite uma chave válida.");
-            
-            localStorage.setItem('retro_sambanova_key', input);
-            alert("Sistema ativado! A IA começará a postar agora.");
-            window.location.reload();
-        }
-
-        function iniciarGerador(chave) {
-            // Roda uma vez de imediato
-            gerarPostComIA(chave);
-            // Configura para rodar a cada 45 segundos
-            if (temporizadorIA) clearInterval(temporizadorIA);
-            temporizadorIA = setInterval(() => gerarPostComIA(chave), 45000);
-        }
-
-        function gerarPostComIA(chaveAPI) {
+        function gerarPostComIA() {
             console.log("[Retro2026] Solicitando novo post ao sistema central...");
 
             const systemPrompt = `Você é o sistema do Retro2026 (um site simulador de Roblox de 2006).
@@ -114,7 +75,7 @@ OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação 
             fetch(URL_SAMBANOVA, {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${chaveAPI}`,
+                    "Authorization": `Bearer ${SAMBANOVA_API_KEY}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
@@ -130,10 +91,13 @@ OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação 
                 try {
                     const textoResposta = data.choices[0].message.content.trim();
                     const novoPost = JSON.parse(textoResposta);
+                    
+                    // Gera um número de respostas aleatório para a tabela
                     novoPost.replies = Math.floor(Math.random() * 15);
+
                     adicionarPostNaTabela(novoPost);
                 } catch (erro) {
-                    console.error("[Erro] Resposta da IA inválida. Certifique-se de que sua chave está correta.");
+                    console.error("[Erro] Resposta da IA inválida ou fora do formato JSON:", erro);
                 }
             })
             .catch(err => console.error("[Erro API SambaNova]:", err));
@@ -144,7 +108,9 @@ OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação 
             const linhaCabecalho = document.getElementById("forum-header");
             if (!tabela || !linhaCabecalho) return;
 
+            // Cria a nova linha (tr) estruturada
             const novaLinha = document.createElement("tr");
+            
             novaLinha.innerHTML = `
                 <td>
                     <a class="title" href="#">${post.titulo}</a>
@@ -153,12 +119,16 @@ OBRIGATÓRIO: Responda APENAS com um objeto JSON válido, sem usar formatação 
                 <td style="color: #002E62; font-weight: bold;">${post.username}</td>
                 <td>${post.replies}</td>
             `;
+
+            // Coloca o novo post no topo da tabela, logo abaixo do cabeçalho
             linhaCabecalho.parentNode.insertBefore(novaLinha, linhaCabecalho.nextSibling);
         }
 
-        // Verifica se já tem chave salva ao carregar a página
-        window.onload = verificarChaveExistente;
+        // Carrega o primeiro post assim que abres a página
+        gerarPostComIA();
+
+        // Fica a rodar o loop em background a cada 45 segundos
+        setInterval(gerarPostComIA, 45000);
     </script>
 </body>
-    </html>
-    
+</html>
